@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Adds autocomplete capabilities for Search API searches.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function search_api_autocomplete_menu() {
+  // Autocompletion path
+  $items['search_api_autocomplete/%search_api_autocomplete_search'] = array(
+    'title' => 'Search API autocomplete',
+    'page callback' => 'search_api_autocomplete_autocomplete',
+    'access arguments' => array('use search_api_autocomplete'),
+    'type' => MENU_CALLBACK,
+    'file' => 'search_api_autocomplete.pages.inc',
+  );
+
+  // Admin UI
+  $items['admin/config/search/search_api/index/%search_api_index/autocomplete'] = array(
+    'title' => 'Autocomplete',
+    'description' => 'Add autocompletion to searches for this index.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('search_api_autocomplete_admin_overview', 5),
+    'access arguments' => array('administer search_api'),
+    'weight' => -1,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_INLINE | MENU_CONTEXT_PAGE,
+    'file' => 'search_api_autocomplete.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function search_api_autocomplete_theme() {
+  $themes['search_api_autocomplete_suggestion'] = array(
+    'variables' => array(
+      'prefix' => NULL,
+      'suggestion_prefix' => '',
+      'user_input' => '',
+      'suggestion_suffix' => '',
+      'results' => NULL,
+    ),
+    'file' => 'search_api_autocomplete.pages.inc',
+  );
+
+  return $themes;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function search_api_autocomplete_entity_info() {
+  $info['search_api_autocomplete_search'] = array(
+    'label' => t('Autocomplete search'),
+    'controller class' => 'EntityAPIController',
+    'entity class' => 'SearchApiAutocompleteSearch',
+    'base table' => 'search_api_autocomplete_search',
+    'uri callback' => 'search_api_autocomplete_search_url',
+    'module' => 'search_api_autocomplete',
+    'exportable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'name' => 'machine_name',
+      'label' => 'name',
+    ),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function search_api_autocomplete_permission() {
+  return array(
+    'use search_api_autocomplete' => array(
+      'title' => t('Use search autocomplete'),
+    ),
+  );
+}
+
+/**
+ * Get information about all search types, or a specific one.
+ *
+ * @param $type
+ *   (optional) The name of a type.
+ *
+ * @return
+ *   If $type was not given, an array containing information about all search
+ *   types. Otherwise, either information about the specified type, or NULL if
+ *   the type is not known.
+ *
+ * @see hook_search_api_autocomplete_types()
+ */
+function search_api_autocomplete_get_types($type = NULL) {
+  $types = &drupal_static(__FUNCTION__);
+  if (!isset($types)) {
+    $types = module_invoke_all('search_api_autocomplete_types');
+  }
+  if (isset($type)) {
+    return isset($types[$type]) ? $types[$type] : NULL;
+  }
+  return $types;
+}

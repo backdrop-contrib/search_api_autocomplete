@@ -3,3 +3,5 @@ description = "Adds autocomplete functionality to most searches on servers suppo
 dependencies[] = search_api
 core = 7.x
 package = Search
+
+files[] = search_api_autocomplete.entity.php
