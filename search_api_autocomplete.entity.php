@@ -45,7 +45,7 @@ class SearchApiAutocompleteSearch extends Entity {
   public $enabled;
 
   /**
-   * An array of options for this search, containing the following:
+   * An array of options for this search, containing any of the following:
    * - results: Boolean indicating whether to also list the estimated number of
    *   results for each suggestion (if possible).
    * - custom: An array of type-specific settings.
