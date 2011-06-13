@@ -45,6 +45,11 @@ class SearchApiAutocompleteSearch extends Entity {
   public $enabled;
 
   /**
+   * An array of options for this search, containing the following:
+   * - results: Boolean indicating whether to also list the estimated number of
+   *   results for each suggestion (if possible).
+   * - custom: An array of type-specific settings.
+   *
    * @var array
    */
   public $options = array();
@@ -78,6 +83,9 @@ class SearchApiAutocompleteSearch extends Entity {
   public function index() {
     if (!isset($this->index)) {
       $this->index = search_api_index_load($this->index_id);
+      if (!$this->index) {
+        $this->index = FALSE;
+      }
     }
     return $this->index;
   }
@@ -93,6 +101,9 @@ class SearchApiAutocompleteSearch extends Entity {
       }
       else {
         $this->server = $this->index()->server();
+        if (!$this->server) {
+          $this->server = FALSE;
+        }
       }
     }
     return $this->server;
@@ -137,6 +148,30 @@ class SearchApiAutocompleteSearch extends Entity {
       return array($m[1], $m[2]);
     }
     return array('', $keys);
+  }
+
+  /**
+   * Create the query that would be issued for this search for the complete keys.
+   *
+   * @param $complete
+   *   A string containing the complete search keys.
+   * @param $incomplete
+   *   A string containing the incomplete last search key.
+   *
+   * @return SearchApiQueryInterface
+   *   The query that would normally be executed when only $complete was entered
+   *   as the search keys for this search.
+   */
+  public function getQuery($complete, $incomplete) {
+    $info = search_api_autocomplete_get_types($this->type);
+    if (empty($info['create query'])) {
+      return NULL;
+    }
+    $query = $info['create query']($this, $complete, $incomplete);
+    if ($complete && !$query->getKeys()) {
+      $query->keys($complete);
+    }
+    return $query;
   }
 
 }

@@ -9,12 +9,40 @@
  * Page callback for getting autocomplete suggestions.
  */
 function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $search, $keys = '') {
-  $suggestions = array();
+  $ret = array();
   if ($search->supportsAutocompletion()) {
     $server = $search->server();
-    $split_keys = $search->splitKeys($keys);
+    list($complete, $incomplete) = $search->splitKeys($keys);
+    $keys = preg_replace('/\s+/', ' ', trim($keys));
+    $query = $search->getQuery($complete, $incomplete);
+    if ($query) {
+      $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
+      if ($suggestions) {
+        foreach ($suggestions as $suggestion) {
+          // Convert suggestion strings into an array.
+          if (is_string($suggestion)) {
+            $pos = strpos($suggestion, $keys);
+            $suggestion = array(
+              'suggestion_prefix' => substr($suggestion, 0, $pos),
+              'user_input' => $keys,
+              'suggestion_suffix' => substr($suggestion, $pos + strlen($keys)),
+            );
+          }
+          // Add defaults.
+          $suggestion += array(
+            'prefix' => NULL,
+            'suggestion_prefix' => '',
+            'user_input' => $keys,
+            'suggestion_suffix' => '',
+            'results' => NULL,
+          );
+          $key = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
+          $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+        }
+      }
+    }
   }
-  drupal_json_output($suggestions);
+  drupal_json_output($ret);
 }
 
 /**
@@ -31,5 +59,5 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
 function theme_search_api_autocomplete_suggestion(array $variables) {
   // @todo
   extract($variables);
-  return "$prefix $suggestion_prefix$user_input$suggestion_suffix ($results)";
+  return "$prefix $suggestion_prefix<strong>$user_input</strong>$suggestion_suffix ($results)";
 }
