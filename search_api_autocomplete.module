@@ -5,6 +5,30 @@
  * Adds autocomplete capabilities for Search API searches.
  */
 
+// Include the files with the module-specific implementations.
+require_once('search_api_autocomplete.search_api_page.inc');
+require_once('search_api_autocomplete.search_api_views.inc');
+
+/**
+ * Implements hook_search_api_autocomplete_types().
+ *
+ * Adds search types for search pages and views. The actual implementations lie
+ * in the above include files.
+ */
+function search_api_autocomplete_search_api_autocomplete_types() {
+  $types = array();
+  if (module_exists('search_api_page')) {
+    $types['search_api_page'] = array(
+      'name' => t('Search pages'),
+      'description' => t('Searches provided by the <em>Search pages</em> module.'),
+      'list searches' => 'search_api_autocomplete_pages_searches',
+      'create query' => 'search_api_autocomplete_pages_query',
+    );
+  }
+
+  return $types;
+}
+
 /**
  * Implements hook_menu().
  */
