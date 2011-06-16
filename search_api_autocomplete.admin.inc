@@ -267,7 +267,9 @@ function search_api_autocomplete_admin_search_edit_submit(array $form, array &$f
   $search->enabled = $values['enabled'];
   $search->options['results'] = $values['options']['results'];
   if (isset($values['options']['custom'])) {
-    $search->options['custom'] = $values['options']['custom'];
+    // Take care of custom options that aren't changed in the config form.
+    $old = empty($search->options['custom']) ? array() : $search->options['custom'];
+    $search->options['custom'] = $values['options']['custom'] + $old;
   }
 
   $search->save();

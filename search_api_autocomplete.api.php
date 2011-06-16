@@ -176,6 +176,8 @@ function hook_default_search_api_autocomplete_search_alter(array &$defaults) {
  * All searches returned must have a unique and well-defined machine name. The
  * implementing module for this type is responsible for being able to map a
  * specific search always to the same distinct machine name.
+ * Since the machine names have to be globally unique, they should be prefixed
+ * with the search type / module name.
  *
  * Also, name and machine name have to respect the length constraints from
  * search_api_autocomplete_schema().
@@ -298,7 +300,9 @@ function example_autocomplete_config_form_validate(array $form, array &$form_sta
  *
  * After calling this function, the value of $values (if set) will automatically
  * be written to $search->options['custom']. This function just has to take care
- * of sanitizing the data as necessary.
+ * of sanitizing the data as necessary. Also, values already present in
+ * $search->options['custom'], but not in the form, will automatically be
+ * protected from being overwritten.
  *
  * The configured SearchApiAutocompleteSearch object can be found in
  * $form_state['search'].
