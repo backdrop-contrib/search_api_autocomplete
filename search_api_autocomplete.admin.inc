@@ -69,7 +69,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
         $search['options'] += array(
           'result count' => TRUE,
         );
-        $types[$type]['searches'][$id] = new SearchApiAutocompleteSearch($search);
+        $types[$type]['searches'][$id] = entity_create('search_api_autocomplete_search', $search);
       }
     }
   }
@@ -243,7 +243,7 @@ function search_api_autocomplete_admin_search_edit_validate(array $form, array &
   $f = $form_state['type']['config form'] . '_validate';
   if (function_exists($f)) {
     $custom_form = empty($form['options']['custom']) ? array() : $form['options']['custom'];
-    $f($form['options']['custom'], $form_state, $form_state['values']);
+    $f($form['options']['custom'], $form_state, $form_state['values']['options']['custom']);
   }
 }
 
@@ -259,7 +259,7 @@ function search_api_autocomplete_admin_search_edit_submit(array $form, array &$f
     $f = $form_state['type']['config form'] . '_submit';
     if (function_exists($f)) {
       $custom_form = empty($form['options']['custom']) ? array() : $form['options']['custom'];
-      $f($form['options']['custom'], $form_state, $values);
+      $f($form['options']['custom'], $form_state, $values['options']['custom']);
     }
   }
 
