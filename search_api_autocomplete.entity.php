@@ -123,6 +123,7 @@ class SearchApiAutocompleteSearch extends Entity {
    */
   public function alterElement(array &$element) {
     if (user_access('use search_api_autocomplete') && $this->supportsAutocompletion()) {
+      $element['#attached']['css'][] = drupal_get_path('module', 'search_api_autocomplete') . '/search_api_autocomplete.css';
       $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name;
     }
   }

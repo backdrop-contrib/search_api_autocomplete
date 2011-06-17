@@ -26,7 +26,10 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
           if (is_string($suggestion)) {
             $pos = strpos($suggestion, $keys);
             if ($pos === FALSE) {
-              $suggestion = array('suggestion_suffix' => $suggestion);
+              $suggestion = array(
+                'user_input' => '',
+                'suggestion_suffix' => $suggestion,
+              );
             }
             else {
               $suggestion = array(
@@ -40,7 +43,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
           $suggestion += array(
             'prefix' => NULL,
             'suggestion_prefix' => '',
-            'user_input' => '',
+            'user_input' => $keys,
             'suggestion_suffix' => '',
             'results' => NULL,
           );
@@ -65,7 +68,23 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
  *   - results: If available, the estimated number of results for these keys.
  */
 function theme_search_api_autocomplete_suggestion(array $variables) {
-  // @todo
   extract($variables);
-  return "$prefix $suggestion_prefix<strong>$user_input</strong>$suggestion_suffix ($results)";
+  $output = '';
+  if ($prefix) {
+    $output .= "<span class=\"autocomplete-suggestion-note\">$prefix</span> ";
+  }
+  if ($suggestion_prefix) {
+    $output .= "<span class=\"autocomplete-suggestion-prefix\">$suggestion_prefix</span>";
+  }
+  if ($user_input) {
+    $output .= "<span class=\"autocomplete-user-input\">$user_input</span>";
+  }
+  if ($suggestion_suffix) {
+    $output .= "<span class=\"autocomplete-suggestion-suffix\">$suggestion_suffix</span>";
+  }
+  if ($results) {
+    $output .= " <span class=\"autocomplete-suggestion-results\">$results</span>";
+  }
+
+  return "<div class=\"search-api-autocomplete-suggestion\">$output</div>";
 }
