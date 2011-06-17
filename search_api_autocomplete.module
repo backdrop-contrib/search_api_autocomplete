@@ -25,6 +25,14 @@ function search_api_autocomplete_search_api_autocomplete_types() {
       'create query' => 'search_api_autocomplete_pages_query',
     );
   }
+  if (module_exists('search_api_views')) {
+    $types['search_api_views'] = array(
+      'name' => t('Search views'),
+      'description' => t('Searches provided by the <em>Search views</em> module.'),
+      'list searches' => 'search_api_autocomplete_views_searches',
+      'create query' => 'search_api_autocomplete_views_query',
+    );
+  }
 
   return $types;
 }
@@ -98,7 +106,7 @@ function search_api_autocomplete_theme() {
 function search_api_autocomplete_entity_info() {
   $info['search_api_autocomplete_search'] = array(
     'label' => t('Autocomplete search'),
-    'controller class' => 'EntityAPIController',
+    'controller class' => 'EntityAPIControllerExportable',
     'entity class' => 'SearchApiAutocompleteSearch',
     'base table' => 'search_api_autocomplete_search',
     'uri callback' => 'search_api_autocomplete_search_url',
@@ -195,5 +203,5 @@ function search_api_autocomplete_search_load($id, $reset = FALSE) {
  * @see entity_load()
  */
 function search_api_autocomplete_search_load_multiple($ids = FALSE, array $conditions = array(), $reset = FALSE) {
-  return entity_load('search_api_autocomplete', $ids, $conditions, $reset);
+  return entity_load_multiple_by_name('search_api_autocomplete_search', $ids, $conditions, $reset);
 }
