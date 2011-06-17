@@ -61,7 +61,6 @@ interface SearchApiAutocompleteInterface extends SearchApiServiceInterface {
    *   - user_input: The input entered by the user. Defaults to $user_input.
    *   - suggestion_suffix: A suggested suffix for the entered input.
    *   - results: If available, the estimated number of results for these keys.
-   *
    *   One of "suggestion_prefix" and "suggestion_suffix" has to be present, all
    *   other keys are optional. The search keys inserted for the suggestion will
    *   be a direct concatenation (no spaces in between) of "suggestion_prefix",

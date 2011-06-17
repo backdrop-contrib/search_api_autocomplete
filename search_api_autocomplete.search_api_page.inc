@@ -12,6 +12,9 @@
  * user.
  */
 function search_api_autocomplete_form_search_api_page_search_form_alter(array &$form, array &$form_state) {
+  if (isset($form['form'])) {
+    $form = &$form['form'];
+  }
   $id = 'search_api_page_' . $form['id']['#value'];
   $search = search_api_autocomplete_search_load($id);
   if ($search && $search->enabled) {
@@ -59,5 +62,11 @@ function search_api_autocomplete_pages_searches(SearchApiIndex $index) {
  */
 function search_api_autocomplete_pages_query(SearchApiAutocompleteSearch $search, $complete, $incomplete) {
   $page = search_api_page_load($search->options['custom']['page_id']);
-  return search_api_page_search_execute($page, $complete);
+  // Copied from search_api_page_search_execute().
+  $query = search_api_query($page->index_id, array('parse mode' => $page->options['mode']))
+    ->keys($complete);
+  if (!empty($page->options['fields'])) {
+    $query->fields($page->options['fields']);
+  }
+  return $query;
 }

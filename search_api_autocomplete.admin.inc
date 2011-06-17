@@ -96,7 +96,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
       '#title' => $info['name'],
     );
     if (!empty($info['description'])) {
-      $form[$type]['#description'] = $info['description'];
+      $form[$type]['#description'] = '<p>' . $info['description'] . '</p>';
     }
     $form[$type]['searches']['#theme'] = 'tableselect';
     $form[$type]['searches']['#header'] = array();
@@ -107,6 +107,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
       'name' => t('Name'),
       'operations' => t('Operations'),
     );
+    $form[$type]['searches']['#empty'] = '';
     $form[$type]['searches']['#js_select'] = TRUE;
     foreach ($info['searches'] as $id => $search) {
       $form[$type]['searches'][$id] = array(
@@ -168,6 +169,7 @@ function search_api_autocomplete_admin_overview_submit(array $form, array &$form
   foreach ($form_state['values']['searches'] as $id => $enabled) {
     $search = $form_state['searches'][$id];
     if ($search->enabled != $enabled) {
+      $search->enabled = $enabled;
       $search->save();
     }
   }
@@ -204,6 +206,8 @@ function search_api_autocomplete_admin_overview_submit_delete(array $form, array
  * @ingroup forms
  */
 function search_api_autocomplete_admin_search_edit(array $form, array &$form_state, SearchApiAutocompleteSearch $search) {
+  drupal_set_title(t('Edit %search', array('%search' => $search->name)), PASS_THROUGH);
+
   $form_state['search'] = $search;
   $form_state['type'] = $type = search_api_autocomplete_get_types($search->type);
   if (!$type) {
@@ -227,6 +231,11 @@ function search_api_autocomplete_admin_search_edit(array $form, array &$form_sta
   if (!empty($type['config form']) && function_exists($type['config form']) && is_array($custom_form = $type['config form']($custom_form, $form_state, $search))) {
     $form['options']['custom'] = $custom_form;
   }
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
   return $form;
 }
 

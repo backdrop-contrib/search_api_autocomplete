@@ -16,23 +16,31 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
     $keys = preg_replace('/\s+/', ' ', trim($keys));
     $query = $search->getQuery($complete, $incomplete);
     if ($query) {
+      // @todo Maybe make this configurable?
+      $query->range(0, 10);
+      $query->setOption('search id', 'search_api_autocomplete');
       $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
       if ($suggestions) {
         foreach ($suggestions as $suggestion) {
           // Convert suggestion strings into an array.
           if (is_string($suggestion)) {
             $pos = strpos($suggestion, $keys);
-            $suggestion = array(
-              'suggestion_prefix' => substr($suggestion, 0, $pos),
-              'user_input' => $keys,
-              'suggestion_suffix' => substr($suggestion, $pos + strlen($keys)),
-            );
+            if ($pos === FALSE) {
+              $suggestion = array('suggestion_suffix' => $suggestion);
+            }
+            else {
+              $suggestion = array(
+                'suggestion_prefix' => substr($suggestion, 0, $pos),
+                'user_input' => $keys,
+                'suggestion_suffix' => substr($suggestion, $pos + strlen($keys)),
+              );
+            }
           }
           // Add defaults.
           $suggestion += array(
             'prefix' => NULL,
             'suggestion_prefix' => '',
-            'user_input' => $keys,
+            'user_input' => '',
             'suggestion_suffix' => '',
             'results' => NULL,
           );

@@ -55,6 +55,7 @@ function search_api_autocomplete_views_searches(SearchApiIndex $index) {
   $ret = array();
   foreach (views_get_all_views() as $name => $view) {
     if (substr($view->base_table, 0, 17) == 'search_api_index_') {
+      // @todo Check whether there is an exposed fulltext filter
       $ret['search_api_views_' . $name] = array(
         'name' => $view->human_name,
       );
