@@ -16,9 +16,10 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
     $keys = preg_replace('/\s+/', ' ', trim($keys));
     $query = $search->getQuery($complete, $incomplete);
     if ($query) {
-      // @todo Maybe make this configurable?
+      // @todo Maybe make range configurable?
       $query->range(0, 10);
       $query->setOption('search id', 'search_api_autocomplete');
+      drupal_alter('search_api_query', $query);
       $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
       if ($suggestions) {
         foreach ($suggestions as $suggestion) {
