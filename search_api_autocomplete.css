@@ -12,5 +12,5 @@
 
 .search-api-autocomplete-suggestion .autocomplete-suggestion-results {
   position: absolute;
-  right: 0;
+  right: 0.2em;
 }

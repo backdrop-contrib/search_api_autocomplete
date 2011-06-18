@@ -48,8 +48,13 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
             'suggestion_suffix' => '',
             'results' => NULL,
           );
+          if (empty($search->options['results'])) {
+            unset($suggestion['results']);
+          }
           $key = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
-          $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+          if (!isset($ret[$key])) {
+            $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+          }
         }
       }
     }
