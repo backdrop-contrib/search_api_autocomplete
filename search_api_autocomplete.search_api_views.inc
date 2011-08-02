@@ -26,13 +26,19 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
   if (empty($index->options['fields'])) {
     return;
   }
-  $fields = $index->options['fields'];
+  $fields = $index->getFulltextFields(FALSE);
   // Add the "Search: Fulltext search" filter as another text field.
-  $fields['search_api_views_fulltext']['type'] = 'text';
-  foreach (element_children($form) as $key) {
-    $element = &$form[$key];
-    if ($element['#type'] == 'textfield' && !empty($fields[$key]['type']) && search_api_is_text_type($fields[$key]['type'])) {
-      $search->alterElement($element);
+  $fields[] = 'search_api_views_fulltext';
+  // We need the _search_api_views_field_identifier() function to translate
+  // Search API field names into Views identifiers.
+  module_load_include('views.inc', 'search_api_views');
+  foreach ($fields as $field) {
+    $field = _search_api_views_field_identifier($field, array());
+    if (!empty($view->filter[$field]->options['expose']['identifier'])) {
+      $key = $view->filter[$field]->options['expose']['identifier'];
+      if (isset($form[$key]) && $form[$key]['#type'] == 'textfield') {
+        $search->alterElement($form[$key]);
+      }
     }
   }
 }
