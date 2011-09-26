@@ -19,7 +19,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
       // @todo Maybe make range configurable?
       $query->range(0, 10);
       $query->setOption('search id', 'search_api_autocomplete');
-      drupal_alter('search_api_query', $query);
+      $query->preExecute();
       $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
       if ($suggestions) {
         foreach ($suggestions as $suggestion) {
