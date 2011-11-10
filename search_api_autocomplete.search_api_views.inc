@@ -29,11 +29,11 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
   $fields = $index->getFulltextFields(FALSE);
   // Add the "Search: Fulltext search" filter as another text field.
   $fields[] = 'search_api_views_fulltext';
-  // We need the _search_api_views_field_identifier() function to translate
-  // Search API field names into Views identifiers.
-  module_load_include('views.inc', 'search_api_views');
+  // We need the _entity_views_field_identifier() function to translate Search
+  // API field names into Views identifiers.
+  module_load_include('views.inc', 'entity', 'views/entity');
   foreach ($fields as $field) {
-    $field = _search_api_views_field_identifier($field, array());
+    $field = _entity_views_field_identifier($field, array());
     if (!empty($view->filter[$field]->options['expose']['identifier'])) {
       $key = $view->filter[$field]->options['expose']['identifier'];
       if (isset($form[$key]) && $form[$key]['#type'] == 'textfield') {
