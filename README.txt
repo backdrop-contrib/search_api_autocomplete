@@ -16,6 +16,17 @@ Currently, only the Solr service class [1] is known to support this feature.
 
 [1] http://drupal.org/project/search_api_solr
 
+- Necessary setup
+
+After having installed and enabled the module, you have to do some
+administrative steps to activate the autocomplete functionality. Autocompletion
+can be enabled and configured for each search separately.
+
+To activate autocompletion for an index's searches, go to the index's
+„Autocomplete“ tab. There, you see all available searches for the index and can
+enable (and afterwards configure) autocompletion for each of them. All fulltext
+key fields on the searches should then become autocompletion fields.
+
 - Supported searches
 
 Currently, only search forms built by search pages or search views are
