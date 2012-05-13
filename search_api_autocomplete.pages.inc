@@ -8,7 +8,7 @@
 /**
  * Page callback for getting autocomplete suggestions.
  */
-function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $search, $keys = '') {
+function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $search, $fields, $keys = '') {
   $ret = array();
   if ($search->supportsAutocompletion()) {
     $server = $search->server();
@@ -19,6 +19,10 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
       // @todo Maybe make range configurable?
       $query->range(0, 10);
       $query->setOption('search id', 'search_api_autocomplete');
+      if ($fields) {
+        $fields = explode(' ', $fields);
+        $query->fields($fields);
+      }
       $query->preExecute();
       $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
       if ($suggestions) {

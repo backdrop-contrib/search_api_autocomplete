@@ -121,10 +121,10 @@ class SearchApiAutocompleteSearch extends Entity {
   /**
    * Helper method for altering a textfield form element to use autocompletion.
    */
-  public function alterElement(array &$element) {
+  public function alterElement(array &$element, array $fields = array()) {
     if (user_access('use search_api_autocomplete') && $this->supportsAutocompletion()) {
       $element['#attached']['css'][] = drupal_get_path('module', 'search_api_autocomplete') . '/search_api_autocomplete.css';
-      $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name;
+      $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name . '/' . implode(' ', $fields);
     }
   }
 
