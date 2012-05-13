@@ -32,12 +32,9 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
   // We need the _entity_views_field_identifier() function to translate Search
   // API field names into Views identifiers.
   module_load_include('views.inc', 'entity', 'views/entity');
-  dpm($fields);
   foreach ($fields as $search_field) {
     $field = _entity_views_field_identifier($search_field, array());
-    $search_field === 'field_category:name' && dpm($search_field . ':' . $field);
     if (!empty($view->filter[$field]->options['expose']['identifier'])) {
-        dpm($field);
       $key = $view->filter[$field]->options['expose']['identifier'];
       if (isset($form[$key]) && $form[$key]['#type'] == 'textfield') {
         if ($field == 'search_api_views_fulltext') {
