@@ -41,7 +41,7 @@ Information for developers
 
 To support autocompletion with a service class, the class has to support the
 "search_api_autocomplete" feature. This will necessitate the service class to
-have a getAutocompleteSuggestions() method as detailled in the interface in
+have a getAutocompleteSuggestions() method as detailed in the interface in
 search_api_autocomplete.interface.php.
 
 - Supporting autocompletion on a search form
