@@ -166,14 +166,22 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
  * @see search_api_autocomplete_admin_overview()
  */
 function search_api_autocomplete_admin_overview_submit(array $form, array &$form_state) {
+  $msg = t('The settings have been saved.');
   foreach ($form_state['values']['searches'] as $id => $enabled) {
     $search = $form_state['searches'][$id];
     if ($search->enabled != $enabled) {
+      $change = TRUE;
+      if (!empty($search->is_new)) {
+        $options['query']['destination'] = $_GET['q'];
+        $options['fragment'] = 'module-search_api_autocomplete';
+        $vars['@perm_url'] = url('admin/people/permissions', $options);
+        $msg = t('The settings have been saved. Please remember to set the <a href="@perm_url">permissions</a> for the newly enabled searches.', $vars);
+      }
       $search->enabled = $enabled;
       $search->save();
     }
   }
-  drupal_set_message(t('The settings have been saved.'));
+  drupal_set_message(empty($change) ? t('No values were changed.') : $msg);
 }
 
 /**

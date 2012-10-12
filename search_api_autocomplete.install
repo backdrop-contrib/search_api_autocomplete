@@ -79,3 +79,43 @@ function search_api_autocomplete_schema() {
 
   return $schema;
 }
+
+/**
+ * Update permissions to the new system with search-specific permissions.
+ */
+function search_api_autocomplete_update_7101() {
+  $roles = db_select('role_permission', 'r')
+    ->fields('r', array('rid'))
+    ->condition('permission', 'use search_api_autocomplete')
+    ->execute()
+    ->fetchCol();
+  $searches = db_select('search_api_autocomplete_search', 's')
+    ->fields('s', array('machine_name'))
+    ->execute()
+    ->fetchCol();
+  try {
+    $tx = db_transaction();
+
+    db_delete('role_permission')
+      ->condition('permission', 'use search_api_autocomplete')
+      ->execute();
+    if ($roles && $searches) {
+      $insert = db_insert('role_permission')
+        ->fields(array('rid', 'permission', 'module'));
+      foreach ($roles as $rid) {
+        foreach ($searches as $id) {
+          $insert->values(array(
+            'rid' => $rid,
+            'permission' => 'use search_api_autocomplete for ' . $id,
+            'module' => 'search_api_autocomplete',
+          ));
+        }
+      }
+      $insert->execute();
+    }
+  }
+  catch (PDOException $e) {
+    $tx->rollback();
+    throw new DrupalUpdateException(t('A database error occurred during update: @msg', array('@msg' => $e->getMessage())));
+  }
+}
