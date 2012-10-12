@@ -33,6 +33,17 @@ Currently, only search forms built by search pages or search views are
 supported directly. However, other modules can easily also use this
 functionality. See the "Information for developers" for details.
 
+  - Caution! -
+  If your view uses contextual filters, those can generally not be inferred in
+  the autocompletion function which might lead to problems of different kinds,
+  including display of confidential information (if such information would be
+  available without contextual filters), wrong suggestions or complete absence
+  of suggestions.
+  Therefore, you should create another display without contextual filters, if
+  necessary, and make sure that this doesn't lead to any leaks.
+  If you want to fix this in a custom way for your site, take a look at
+  example_search_api_query_alter() for suggestions.
+
 
 Information for developers
 --------------------------

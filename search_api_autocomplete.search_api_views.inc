@@ -93,12 +93,56 @@ function search_api_autocomplete_views_searches(SearchApiIndex $index) {
 function search_api_autocomplete_views_query(SearchApiAutocompleteSearch $search, $complete, $incomplete) {
   $views_id = substr($search->machine_name, 17);
   $view = views_get_view($views_id);
-  // @todo Let users select display
-  $view->set_display();
-  // @todo Determine arguments
+  $view->set_display(isset($search->options['custom']['display']) ? $search->options['custom']['display'] : NULL);
   $view->pre_execute();
   $view->build();
   $query = $view->query->getSearchApiQuery();
   $query->keys($complete);
   return $query;
+}
+
+/**
+ * Form callback for a Views-specific autocomplete configuration form.
+ *
+ * @param SearchApiAutocompleteSearch $search
+ *   The search being configured.
+ *
+ * @see example_autocomplete_config_form()
+ * @see search_api_autocomplete_views_config_form_submit()
+ */
+function search_api_autocomplete_views_config_form(array $form, array &$form_state, SearchApiAutocompleteSearch $search) {
+  $views_id = substr($search->machine_name, 17);
+  $view = views_get_view($views_id);
+  $options = array();
+  foreach ($view->display as $id => $display) {
+    $options[$id] = $display->display_title;
+  }
+  $form['display'] = array(
+    '#type' => 'select',
+    '#title' => t('Views display'),
+    '#description' => t('Please select the Views display whose settings should be used for autocomplete queries.<br />' .
+        "<strong>Note:</strong> Autocompletion doesn't work well with contextual filters. Please see the <a href='@readme_url'>README.txt</a> file for details.",
+        array('@readme_url' => url(drupal_get_path('module', 'search_api_autocomplete') . '/README.txt'))),
+    '#options' => $options,
+    '#default_value' => isset($search->options['custom']['display']) ? $search->options['custom']['display'] : 'default',
+  );
+
+  return $form;
+}
+
+/**
+ * Submit callback for search_api_autocomplete_views_config_form().
+ *
+ * @see example_autocomplete_config_form_submit()
+ * @see search_api_autocomplete_views_config_form()
+ */
+function search_api_autocomplete_views_config_form_submit(array $form, array &$form_state, array &$values) {
+  $views_id = substr($form_state['search']->machine_name, 17);
+  $view = views_get_view($views_id);
+  $view->set_display($values['display']);
+  $view->pre_execute();
+  if ($view->argument) {
+    drupal_set_message(t('You have selected a display with contextual filters. This can lead to various problems. Please see the <a href="@readme_url">README.txt</a> file for details.',
+        array('@readme_url' => url(drupal_get_path('module', 'search_api_autocomplete') . '/README.txt'))), 'warning');
+  }
 }

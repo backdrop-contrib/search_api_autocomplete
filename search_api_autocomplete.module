@@ -31,6 +31,7 @@ function search_api_autocomplete_search_api_autocomplete_types() {
       'description' => t('Searches provided by the <em>Search views</em> module.'),
       'list searches' => 'search_api_autocomplete_views_searches',
       'create query' => 'search_api_autocomplete_views_query',
+      'config form' => 'search_api_autocomplete_views_config_form',
     );
   }
 
