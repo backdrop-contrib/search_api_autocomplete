@@ -48,6 +48,7 @@ class SearchApiAutocompleteSearch extends Entity {
    * An array of options for this search, containing any of the following:
    * - results: Boolean indicating whether to also list the estimated number of
    *   results for each suggestion (if possible).
+   * - fields: Array containing the fulltext fields to use for autocompletion.
    * - custom: An array of type-specific settings.
    *
    * @var array

@@ -19,7 +19,10 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
       // @todo Maybe make range configurable?
       $query->range(0, 10);
       $query->setOption('search id', 'search_api_autocomplete:' . $search->machine_name);
-      if ($fields) {
+      if (!empty($search->options['fields'])) {
+        $query->fields($search->options['fields']);
+      }
+      elseif ($fields) {
         $fields = explode(' ', $fields);
         $query->fields($fields);
       }
