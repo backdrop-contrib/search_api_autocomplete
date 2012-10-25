@@ -65,8 +65,9 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
  */
 function search_api_autocomplete_views_searches(SearchApiIndex $index) {
   $ret = array();
+  $base_table = 'search_api_index_' . $index->machine_name;
   foreach (views_get_all_views() as $name => $view) {
-    if (substr($view->base_table, 0, 17) == 'search_api_index_') {
+    if ($view->base_table === $base_table) {
       // @todo Check whether there is an exposed fulltext filter
       $ret['search_api_views_' . $name] = array(
         'name' => !empty($view->human_name) ? $view->human_name : $name,
