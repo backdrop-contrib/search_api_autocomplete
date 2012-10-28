@@ -22,7 +22,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
       if (!empty($search->options['fields'])) {
         $query->fields($search->options['fields']);
       }
-      elseif ($fields) {
+      elseif (trim($fields)) {
         $fields = explode(' ', $fields);
         $query->fields($fields);
       }
