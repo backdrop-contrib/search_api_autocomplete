@@ -18,7 +18,7 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
   }
   $search_id = 'search_api_views_' . $view->name;
   $search = search_api_autocomplete_search_load($search_id);
-  if (!search_api_autocomplete_access($search)) {
+  if (!$search || !search_api_autocomplete_access($search)) {
     return;
   }
   $index_id = substr($view->base_table, 17);
