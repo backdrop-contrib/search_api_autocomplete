@@ -126,7 +126,11 @@ class SearchApiAutocompleteSearch extends Entity {
     if (search_api_autocomplete_access($this)) {
       $fields_string = $fields ? implode(' ', $fields) : ' ';
       $element['#attached']['css'][] = drupal_get_path('module', 'search_api_autocomplete') . '/search_api_autocomplete.css';
+      $element['#attached']['js'][] = drupal_get_path('module', 'search_api_autocomplete') . '/search_api_autocomplete.js';
       $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
+      $element += array('#attributes' => array());
+      $element['#attributes'] += array('class'=> array());
+      $element['#attributes']['class'][] = 'auto_submit';
     }
   }
 
