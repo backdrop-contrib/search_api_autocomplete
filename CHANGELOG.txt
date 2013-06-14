@@ -1,0 +1,7 @@
+Search API Autocomplete 1.x, dev (xx/xx/xxxx):
+----------------------------------------------
+- #2012710 by drunken monkey: Fixed $reset parameter for load functions.
+
+Search API Autocomplete 1.0 (04/22/2013):
+-----------------------------------------
+First stable release of the Search API Autocomplete project.
