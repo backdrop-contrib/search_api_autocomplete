@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2023947 by drunken monkey: Fixed behavior when user input contains trailing
+  whitespace.
 - #2012710 by drunken monkey: Fixed $reset parameter for load functions.
 
 Search API Autocomplete 1.0 (04/22/2013):

@@ -148,8 +148,8 @@ class SearchApiAutocompleteSearch extends Entity {
     $keys = ltrim($keys);
     // If there is whitespace or a quote on the right, all words have been
     // completed.
-    if (rtrim($keys, " \t\n\r\0\x0B\"") != $keys) {
-      return array(rtrim($keys), '');
+    if (rtrim($keys, " \"") != $keys) {
+      return array(rtrim($keys, ' '), '');
     }
     if (preg_match('/^(.*?)\s*"?([\S]*)$/', $keys, $m)) {
       return array($m[1], $m[2]);

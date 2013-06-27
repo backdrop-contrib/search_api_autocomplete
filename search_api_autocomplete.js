@@ -44,11 +44,10 @@ Drupal.jsAC.prototype.onkeyup = function (input, e) {
 };
 
 // Auto-submit main search input after autocomplete
-if ( typeof Drupal.jsAC != 'undefined') {
+if (typeof Drupal.jsAC != 'undefined') {
   Drupal.jsAC.prototype.select = function(node) {
     this.input.value = $(node).data('autocompleteValue');
     if ($(this.input).hasClass('auto_submit')) {
-
       if (typeof Drupal.search_api_ajax != 'undefined') {
         // Use Search API Ajax to submit
         Drupal.search_api_ajax.navigateQuery($(this.input).val());
@@ -64,20 +63,24 @@ if ( typeof Drupal.jsAC != 'undefined') {
 * Performs a cached and delayed search.
 */
 Drupal.ACDB.prototype.search = function (searchString) {
-  var db = this;
   this.searchString = searchString;
 
   // See if this string needs to be searched for anyway.
-  searchString = searchString.replace(/^\s+|\s+$/, '');
-  if (searchString.length <= 0 ||
-    searchString.charAt(searchString.length - 1) == ',') {
+  if (searchString.match(/^\s*$/)) {
     return;
   }
+
+  // Prepare search string.
+  searchString = searchString.replace(/^\s+/, '');
+  searchString = searchString.replace(/\s+/g, ' ');
 
   // See if this key has been searched for before.
   if (this.cache[searchString]) {
     return this.owner.found(this.cache[searchString]);
   }
+
+  var db = this;
+  this.searchString = searchString;
 
   // Initiate delayed search.
   if (this.timer) {
