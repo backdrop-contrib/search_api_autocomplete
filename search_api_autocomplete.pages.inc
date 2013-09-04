@@ -13,7 +13,6 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
   if ($search->supportsAutocompletion()) {
     $server = $search->server();
     list($complete, $incomplete) = $search->splitKeys($keys);
-    $keys = trim($keys);
     $query = $search->getQuery($complete, $incomplete);
     if ($query) {
       // @todo Maybe make range configurable?

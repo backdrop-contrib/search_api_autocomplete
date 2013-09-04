@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2079951 by drunken monkey: Fixed concatenation of words when there is a
+  trailing space.
 - #2023947 by drunken monkey: Fixed behavior when user input contains trailing
   whitespace.
 - #2012710 by drunken monkey: Fixed $reset parameter for load functions.
