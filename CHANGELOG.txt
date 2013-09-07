@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #1357954 by drunken monkey: Clarified documentation.
 - #2079951 by drunken monkey: Fixed concatenation of words when there is a
   trailing space.
 - #2023947 by drunken monkey: Fixed behavior when user input contains trailing
