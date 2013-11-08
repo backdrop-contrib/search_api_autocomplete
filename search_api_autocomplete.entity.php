@@ -131,6 +131,10 @@ class SearchApiAutocompleteSearch extends Entity {
       $element += array('#attributes' => array());
       $element['#attributes'] += array('class'=> array());
       $element['#attributes']['class'][] = 'auto_submit';
+      $options = $this->options + array('min_length' => 1);
+      if ($options['min_length'] > 1) {
+        $element['#attributes']['data-min-autocomplete-length'] = $options['min_length'];
+      }
     }
   }
 

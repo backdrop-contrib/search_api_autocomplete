@@ -65,6 +65,12 @@ if (typeof Drupal.jsAC != 'undefined') {
 Drupal.ACDB.prototype.search = function (searchString) {
   this.searchString = searchString;
 
+  // Check allowed length of string for autocompete.
+  var data = $(this.owner.input).first().data('min-autocomplete-length');
+  if (data && searchString.length < data) {
+    return;
+  }
+
   // See if this string needs to be searched for anyway.
   if (searchString.match(/^\s*$/)) {
     return;
