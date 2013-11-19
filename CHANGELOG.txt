@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2134675 by Julian Maurice, drunken monkey: Added
+  hook_search_api_autocomplete_suggestions_alter().
 - #2121135 by eugene.ilyin, drunken monkey: Added minimum key length option.
 - #1357954 by drunken monkey: Clarified documentation.
 - #2079951 by drunken monkey: Fixed concatenation of words when there is a

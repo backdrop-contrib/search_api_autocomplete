@@ -59,12 +59,25 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
           }
           $key = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
           if (!isset($ret[$key])) {
-            $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+            $ret[$key] = $suggestion;
           }
+        }
+
+        $alter_params = array(
+          'query' => $query,
+          'search' => $search,
+          'incomplete_key' => $incomplete,
+          'user_input' => $keys,
+        );
+        drupal_alter('search_api_autocomplete_suggestions', $ret, $alter_params);
+
+        foreach ($ret as $key => $suggestion) {
+          $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
         }
       }
     }
   }
+
   drupal_json_output($ret);
 }
 
