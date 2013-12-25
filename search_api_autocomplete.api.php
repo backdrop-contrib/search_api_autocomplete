@@ -238,6 +238,9 @@ function example_list_autocomplete_searches(SearchApiIndex $index) {
  * @return SearchApiQueryInterface
  *   The query that would normally be executed when only $complete was entered
  *   as the search keys for the given search.
+ *
+ * @throws SearchApiException
+ *   If the query couldn't be created.
  */
 function example_create_autocomplete_query(SearchApiAutocompleteSearch $search, $complete, $incomplete) {
   $query = search_api_query($search->index_id);

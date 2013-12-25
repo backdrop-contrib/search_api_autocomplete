@@ -92,8 +92,13 @@ class SearchApiAutocompleteSearch extends Entity {
   }
 
   /**
+   * Retrieves the server this search would at the moment be executed on.
+   *
    * @return SearchApiServer
    *   The server this search would at the moment be executed on.
+   *
+   * @throws SearchApiException
+   *   If a server is set for the index but it doesn't exist.
    */
   public function server() {
     if (!isset($this->server)) {
@@ -116,7 +121,12 @@ class SearchApiAutocompleteSearch extends Entity {
    *   autocompletion feature; FALSE otherwise.
    */
   public function supportsAutocompletion() {
-    return $this->server() && $this->server()->supportsFeature('search_api_autocomplete');
+    try {
+      return $this->server() && $this->server()->supportsFeature('search_api_autocomplete');
+    }
+    catch (Exception $e) {
+      return FALSE;
+    }
   }
 
   /**
@@ -172,6 +182,9 @@ class SearchApiAutocompleteSearch extends Entity {
    * @return SearchApiQueryInterface
    *   The query that would normally be executed when only $complete was entered
    *   as the search keys for this search.
+   *
+   * @throws SearchApiException
+   *   If the query couldn't be created.
    */
   public function getQuery($complete, $incomplete) {
     $info = search_api_autocomplete_get_types($this->type);
