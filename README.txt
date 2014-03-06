@@ -29,6 +29,10 @@ To activate autocompletion for an index's searches, go to the index's
 enable (and afterwards configure) autocompletion for each of them. All fulltext
 key fields on the searches should then become autocompletion fields.
 
+There is an autocomplete permission for each separate search. Therefore, after
+adding autocomplete to a new search, don't forget to set the appropriate
+permissions.
+
 NOTE: Searches using the "Multi-Index Searches" module [3] are currently not
 supported by this module.
 

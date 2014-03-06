@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2195657 by drunken monkey: Added a note about permissions to README.txt.
 - #2147555 by drunken monkey: Improved error handling.
 - #2134675 by Julian Maurice, drunken monkey: Added
   hook_search_api_autocomplete_suggestions_alter().
