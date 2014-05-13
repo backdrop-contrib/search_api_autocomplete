@@ -57,6 +57,18 @@ if (typeof Drupal.jsAC != 'undefined') {
       return true;
     }
   };
+
+  /**
+   * Overwrite default behaviour that would rely on synchronous jQuery animation
+   * in Drupal.jsAC.prototype.hidePopup() - which is simply impossible.
+   *
+   * Just don't return any boolean value.
+   */
+  Drupal.autocompleteSubmit = function () {
+    $('#autocomplete').each(function () {
+      this.owner.hidePopup();
+    });
+  };
 }
 
 /**
