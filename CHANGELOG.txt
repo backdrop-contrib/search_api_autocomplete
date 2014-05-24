@@ -1,5 +1,5 @@
-Search API Autocomplete 1.x, dev (xx/xx/xxxx):
-----------------------------------------------
+Search API Autocomplete 1.1 (05/24/2014):
+-----------------------------------------
 - #2229613 by das-peter: Fixed search submit while suggestions are displayed.
 - #2062969 by queenvictoria, das-peter: Fixed AJAX errors on click or return.
 - #2195657 by drunken monkey: Added a note about permissions to README.txt.
