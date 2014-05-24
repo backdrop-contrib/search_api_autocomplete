@@ -1,3 +1,6 @@
+Search API Autocomplete 1.x, dev (xx/xx/xxxx):
+----------------------------------------------
+
 Search API Autocomplete 1.1 (05/24/2014):
 -----------------------------------------
 - #2229613 by das-peter: Fixed search submit while suggestions are displayed.
