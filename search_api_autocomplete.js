@@ -75,15 +75,16 @@ if (typeof Drupal.jsAC != 'undefined') {
   };
 
   /**
-   * Overwrite default behaviour that would rely on synchronous jQuery animation
-   * in Drupal.jsAC.prototype.hidePopup() - which is simply impossible.
+   * Overwrite default behaviour.
    *
-   * Just don't return any boolean value.
+   * Just always return true to make it possible to submit even when there was
+   * an autocomplete suggestion list open.
    */
   Drupal.autocompleteSubmit = function () {
     $('#autocomplete').each(function () {
       this.owner.hidePopup();
     });
+    return true;
   };
 }
 
