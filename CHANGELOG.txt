@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2368795 by theo_: Fixed Javascript error when overriding autocomplete.
 - #2352567 by das-peter, drunken monkey: Fixed CTools incompatibility of JS
   submit handler.
 - #2334563 by Begun, drunken monkey, marvil07: Added an advanced option to

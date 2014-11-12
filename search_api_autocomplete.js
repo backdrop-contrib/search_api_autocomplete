@@ -9,13 +9,13 @@ if (typeof Drupal.jsAC != 'undefined') {
    * Extend from Drupal's autocomplete.js to automatically submit the form
    * when Enter is hit.
    */
-  Drupal.jsAC.defaultOnkeyup = Drupal.jsAC.prototype.onkeyup;
+  var default_onkeyup = Drupal.jsAC.prototype.onkeyup;
   Drupal.jsAC.prototype.onkeyup = function (input, e) {
     if (!e) {
       e = window.event;
     }
     // Fire standard function.
-    $.proxy(Drupal.jsAC.defaultOnkeyup, this)(input, e);
+    $.proxy(default_onkeyup, this)(input, e);
 
     if (13 == e.keyCode && $(input).hasClass('auto_submit')) {
       var selector;
@@ -35,13 +35,13 @@ if (typeof Drupal.jsAC != 'undefined') {
    * Extend from Drupal's autocomplete.js to avoid ajax interfering with the
    * autocomplete.
    */
-  Drupal.jsAC.defaultOnkeydown = Drupal.jsAC.prototype.onkeydown;
+  var default_onkeydown = Drupal.jsAC.prototype.onkeydown;
   Drupal.jsAC.prototype.onkeydown = function (input, e) {
     if (!e) {
       e = window.event;
     }
     // Fire standard function.
-    $.proxy(Drupal.jsAC.defaultOnkeydown, this)(input, e);
+    $.proxy(default_onkeydown, this)(input, e);
 
     // Prevent that the ajax handling of views fires to early and thus
     // misses the form update.
