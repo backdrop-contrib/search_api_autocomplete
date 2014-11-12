@@ -30,7 +30,7 @@ if (typeof Drupal.jsAC != 'undefined') {
   };
 
   /**
-   * Handler for the "keyup" event.
+   * Handler for the "keydown" event.
    *
    * Extend from Drupal's autocomplete.js to avoid ajax interfering with the
    * autocomplete.
@@ -94,7 +94,7 @@ if (typeof Drupal.jsAC != 'undefined') {
 Drupal.ACDB.prototype.search = function (searchString) {
   this.searchString = searchString;
 
-  // Check allowed length of string for autocompete.
+  // Check allowed length of string for autocomplete.
   var data = $(this.owner.input).first().data('min-autocomplete-length');
   if (data && searchString.length < data) {
     return;
