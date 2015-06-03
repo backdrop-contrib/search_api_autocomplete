@@ -1,7 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
 
-Search API Autocomplete 1.2 (06/03/2015):
+Search API Autocomplete 1.2 (2015-06-03):
 -----------------------------------------
 - #2335701 by marvil07, drunken monkey: Added an alter hook for the detected
   fulltext fields in views.
@@ -15,7 +15,7 @@ Search API Autocomplete 1.2 (06/03/2015):
   change the jQuery button selector.
 - #2280111 by drunken monkey: Fixed handling of settings for deleted searches.
 
-Search API Autocomplete 1.1 (05/24/2014):
+Search API Autocomplete 1.1 (2014-05-24):
 -----------------------------------------
 - #2229613 by das-peter: Fixed search submit while suggestions are displayed.
 - #2062969 by queenvictoria, das-peter: Fixed AJAX errors on click or return.
@@ -31,6 +31,6 @@ Search API Autocomplete 1.1 (05/24/2014):
   whitespace.
 - #2012710 by drunken monkey: Fixed $reset parameter for load functions.
 
-Search API Autocomplete 1.0 (04/22/2013):
+Search API Autocomplete 1.0 (2013-04-22):
 -----------------------------------------
 First stable release of the Search API Autocomplete project.
