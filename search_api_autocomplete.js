@@ -51,9 +51,14 @@ if (typeof Drupal.jsAC != 'undefined') {
     }
   };
 
-
   Drupal.jsAC.prototype.select = function(node) {
-    this.input.value = $(node).data('autocompleteValue');
+    var autocompleteValue = $(node).data('autocompleteValue');
+    // Check whether this is not a suggestion but a "link".
+    if (autocompleteValue.charAt(0) == ' ') {
+      window.location.href = autocompleteValue.substr(1);
+      return false;
+    }
+    this.input.value = autocompleteValue;
     $(this.input).trigger('autocompleteSelect', [node]);
     if ($(this.input).hasClass('auto_submit')) {
       if (typeof Drupal.search_api_ajax != 'undefined') {

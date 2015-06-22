@@ -54,18 +54,8 @@ interface SearchApiAutocompleteInterface extends SearchApiServiceInterface {
    *   The complete user input for the fulltext search keywords so far.
    *
    * @return array
-   *   An array of suggestion. Each suggestion is either a simple string
-   *   containing the whole suggested keywords, or an array containing the
-   *   following keys:
-   *   - prefix: For special suggestions, some kind of prefix describing them.
-   *   - suggestion_prefix: A suggested prefix for the entered input.
-   *   - user_input: The input entered by the user. Defaults to $user_input.
-   *   - suggestion_suffix: A suggested suffix for the entered input.
-   *   - results: If available, the estimated number of results for these keys.
-   *   The search keys inserted for the suggestion will be a direct
-   *   concatenation (no spaces in between) of "suggestion_prefix", "user_input"
-   *   and "suggestion_suffix". Therefore, at least one of them has to have a
-   *   non-empty value. Apart from this, all the keys are optional.
+   *   An array of suggestions, as defined by
+   *   SearchApiAutocompleteSuggesterInterface::getAutocompleteSuggestions().
    */
   public function getAutocompleteSuggestions(SearchApiQueryInterface $query, SearchApiAutocompleteSearch $search, $incomplete_key, $user_input);
 

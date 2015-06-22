@@ -56,6 +56,8 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
             }
             // Add defaults.
             $suggestion += array(
+              'url' => NULL,
+              'term' => NULL,
               'prefix' => NULL,
               'suggestion_prefix' => '',
               'user_input' => $keys,
@@ -65,7 +67,21 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
             if (empty($search->options['results'])) {
               unset($suggestion['results']);
             }
-            $key = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
+
+            // Decide what the action of the suggestion is – entering specific
+            // search terms or redirecting to a URL.
+            if (isset($suggestion['url'])) {
+              $key = ' ' . $suggestion['url'];
+            }
+            else {
+              // Also set the "term" key so it will always be available in alter
+              // hooks and the theme function.
+              if (!isset($suggestion['term'])) {
+                $suggestion['term'] = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
+              }
+              $key = trim($suggestion['term']);
+            }
+
             if (!isset($ret[$key])) {
               $ret[$key] = $suggestion;
             }
@@ -80,7 +96,12 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
           drupal_alter('search_api_autocomplete_suggestions', $ret, $alter_params);
 
           foreach ($ret as $key => $suggestion) {
-            $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+            if (isset($suggestion['render'])) {
+              $ret[$key] = render($suggestion['render']);
+            }
+            else {
+              $ret[$key] = theme('search_api_autocomplete_suggestion', $suggestion);
+            }
           }
         }
       }
@@ -94,10 +115,11 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
 }
 
 /**
- *
+ * Returns HTML for an autocomplete suggestion.
  *
  * @param array $variables
  *   An associative array containing:
+ *   - term: The keyword (or keywords) this suggestion will autocomplete to.
  *   - prefix: For special suggestions, some kind of prefix describing them.
  *   - suggestion_prefix: A suggested prefix for the entered input.
  *   - user_input: The input entered by the user.
@@ -105,7 +127,12 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
  *   - results: If available, the estimated number of results for these keys.
  */
 function theme_search_api_autocomplete_suggestion(array $variables) {
-  extract($variables);
+  $prefix = $variables['prefix'];
+  $suggestion_prefix = $variables['suggestion_prefix'];
+  $user_input = $variables['user_input'];
+  $suggestion_suffix = $variables['suggestion_suffix'];
+  $results = $variables['results'];
+
   $output = '';
   if ($prefix) {
     $output .= "<span class=\"autocomplete-suggestion-note\">$prefix</span> ";

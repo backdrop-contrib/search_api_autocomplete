@@ -104,6 +104,7 @@ function search_api_autocomplete_menu() {
 function search_api_autocomplete_theme() {
   $themes['search_api_autocomplete_suggestion'] = array(
     'variables' => array(
+      'term' => NULL,
       'prefix' => NULL,
       'suggestion_prefix' => '',
       'user_input' => '',
