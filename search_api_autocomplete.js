@@ -62,7 +62,7 @@ if (typeof Drupal.jsAC != 'undefined') {
       }
       else {
         var selector;
-        if (typeof Drupal.settings.search_api_autocomplete.selector != 'undefined') {
+        if (Drupal.settings.search_api_autocomplete && typeof Drupal.settings.search_api_autocomplete.selector != 'undefined') {
           selector = Drupal.settings.search_api_autocomplete.selector;
         }
         else {
@@ -122,7 +122,7 @@ Drupal.ACDB.prototype.search = function (searchString) {
   if (this.timer) {
     clearTimeout(this.timer);
   }
-  this.timer = setTimeout(function () {
+  var sendAjaxRequest = function () {
     db.owner.setStatus('begin');
 
     // Ajax GET request for autocompletion. We use Drupal.encodePath instead of
@@ -147,7 +147,18 @@ Drupal.ACDB.prototype.search = function (searchString) {
         }
       }
     });
-  }, this.delay);
+  };
+  // Make it possible to override the delay via a setting.
+  var delay = this.delay;
+  if (Drupal.settings.search_api_autocomplete && typeof Drupal.settings.search_api_autocomplete.delay != 'undefined') {
+    delay = Drupal.settings.search_api_autocomplete.delay;
+  }
+  if (delay > 0) {
+    this.timer = setTimeout(sendAjaxRequest, delay);
+  }
+  else {
+    sendAjaxRequest.apply();
+  }
 };
 
 })(jQuery);

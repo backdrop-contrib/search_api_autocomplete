@@ -56,6 +56,14 @@ functionality. See the "Information for developers" for details.
   If you want to fix this in a custom way for your site, take a look at
   example_search_api_query_alter() for suggestions.
 
+- Hidden settings
+
+search_api_autocomplete_delay:
+  Change the delay before the autocomplete request is sent when a user is typing
+  into an autocomplete field. The setting is only effective on pages with Search
+  API Autocomplete forms, not on other pages with autocomplete fields. The unit
+  of the value is milliseconds, the default is 300.
+
 
 Information for developers
 --------------------------

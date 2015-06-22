@@ -87,6 +87,13 @@ function search_api_autocomplete_schema() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function search_api_autocomplete_uninstall() {
+  variable_del('search_api_autocomplete_delay');
+}
+
+/**
  * Update permissions to the new system with search-specific permissions.
  */
 function search_api_autocomplete_update_7101() {
