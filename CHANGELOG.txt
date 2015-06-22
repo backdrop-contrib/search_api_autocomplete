@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2475435 by drunken monkey: Added support for switching the autocomplete
+  implementation.
 
 Search API Autocomplete 1.2 (2015-06-03):
 -----------------------------------------

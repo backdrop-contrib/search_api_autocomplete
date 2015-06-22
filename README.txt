@@ -9,14 +9,15 @@ Information for users
 
 - Necessary server feature
 
-The server on which the search will be executed has to support the
-"search_api_autocomplete" feature in order for autocompletion to work. Searches
-on other servers won't be affected by this module.
+The default suggester plugin included in this module retrieves autocomplete
+suggestions from the server. For this to work, the server has to support the
+"search_api_autocomplete" feature. Having autocompletion on other servers is
+only possible if you install a module provide another suggester plugin.
 Currently, the Solr service class [1] and the Database Search [2] are known to
 support this feature.
 
-[1] https://drupal.org/project/search_api_solr
-[2] https://drupal.org/project/search_api_db
+[1] https://www.drupal.org/project/search_api_solr
+[2] https://www.drupal.org/project/search_api_db
 
 - Necessary setup
 
@@ -58,6 +59,13 @@ functionality. See the "Information for developers" for details.
 
 Information for developers
 --------------------------
+
+- Supporting a new method of creating suggestions
+
+You can add your own implementation for creating autocomplete suggestions by
+creating a so-called "suggester" plugin. For details, see the
+hook_search_api_autocomplete_suggester_info() documentation in
+search_api_autocomplete.api.php.
 
 - Supporting autocompletion with a service class
 

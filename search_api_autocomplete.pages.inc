@@ -7,12 +7,19 @@
 
 /**
  * Page callback for getting autocomplete suggestions.
+ *
+ * @param SearchApiAutocompleteSearch $search
+ *   The search for which to retrieve autocomplete suggestions.
+ * @param string $fields
+ *   A comma-separated list of fields on which to do autocompletion. Or "-" to
+ *   use all fulltext fields.
+ * @param string $keys
+ *   The user input so far.
  */
 function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $search, $fields, $keys = '') {
   $ret = array();
   try {
     if ($search->supportsAutocompletion()) {
-      $server = $search->server();
       list($complete, $incomplete) = $search->splitKeys($keys);
       $query = $search->getQuery($complete, $incomplete);
       if ($query) {
@@ -27,7 +34,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
           $query->fields($fields);
         }
         $query->preExecute();
-        $suggestions = $server->getAutocompleteSuggestions($query, $search, $incomplete, $keys);
+        $suggestions = $search->getSuggester()->getAutocompleteSuggestions($query, $incomplete, $keys);
         if ($suggestions) {
           foreach ($suggestions as $suggestion) {
             // Convert suggestion strings into an array.

@@ -2,13 +2,11 @@
 
 /**
  * @file
- * Contains the SearchApiAutocompleteSearch class.
+ * Contains SearchApiAutocompleteSearch.
  */
 
-
 /**
- * Class describing the settings for a certain search for which autocompletion
- * is available.
+ * Describes the autocomplete settings for a certain search.
  */
 class SearchApiAutocompleteSearch extends Entity {
 
@@ -33,6 +31,11 @@ class SearchApiAutocompleteSearch extends Entity {
    * @var integer
    */
   public $index_id;
+
+  /**
+   * @var string
+   */
+  public $suggester_id;
 
   /**
    * @var string
@@ -68,7 +71,14 @@ class SearchApiAutocompleteSearch extends Entity {
   protected $server;
 
   /**
-   * Constructor.
+   * The suggester plugin this search uses.
+   *
+   * @var SearchApiAutocompleteSuggesterInterface
+   */
+  protected $suggester;
+
+  /**
+   * Constructs a SearchApiAutocompleteSearch.
    *
    * @param array $values
    *   The entity properties.
@@ -116,17 +126,49 @@ class SearchApiAutocompleteSearch extends Entity {
   }
 
   /**
-   * @return boolean
-   *   TRUE if the server this search is currently associated with supports the
-   *   autocompletion feature; FALSE otherwise.
+   * Retrieves the ID of the suggester plugin for this search.
+   *
+   * @return string
+   *   This search's suggester plugin's ID.
+   */
+  public function getSuggesterId() {
+    return $this->suggester_id;
+  }
+
+  /**
+   * Retrieves the suggester plugin for this search.
+   *
+   * @param bool $reset
+   *   (optional) If TRUE, clear the internal static cache and reload the
+   *   suggester.
+   *
+   * @return SearchApiAutocompleteSuggesterInterface|null
+   *   This search's suggester plugin, or NULL if it could not be loaded.
+   */
+  public function getSuggester($reset = FALSE) {
+    if (!isset($this->suggester) || $reset) {
+      $configuration = !empty($this->options['suggester_configuration']) ? $this->options['suggester_configuration'] : array();
+      $this->suggester = search_api_autocomplete_suggester_load($this->suggester_id, $this, $configuration);
+      if (!$this->suggester) {
+        $variables['@search'] = $this->machine_name;
+        $variables['@index'] = $this->index() ? $this->index()->label() : $this->index_id;
+        $variables['@suggester_id'] = $this->suggester_id;
+        watchdog('search_api_autocomplete', 'Autocomplete search @search on index @index specifies an invalid suggester plugin @suggester_id.', $variables, WATCHDOG_ERROR);
+        $this->suggester = FALSE;
+      }
+    }
+    return $this->suggester ? $this->suggester : NULL;
+  }
+
+  /**
+   * Determines whether autocompletion is currently supported for this search.
+   *
+   * @return bool
+   *   TRUE if autocompletion is possible for this search with the current
+   *   settings; FALSE otherwise.
    */
   public function supportsAutocompletion() {
-    try {
-      return $this->server() && $this->server()->supportsFeature('search_api_autocomplete');
-    }
-    catch (Exception $e) {
-      return FALSE;
-    }
+    return $this->index() && $this->getSuggester() && $this->getSuggester()->supportsIndex($this->index());
   }
 
   /**
