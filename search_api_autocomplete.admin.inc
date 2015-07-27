@@ -348,6 +348,13 @@ function search_api_autocomplete_admin_search_edit(array $form, array &$form_sta
     '#default_value' => isset($search->options['submit_button_selector']) ? $search->options['submit_button_selector'] : ':submit',
     '#required' => TRUE,
   );
+  $form['advanced']['autosubmit'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable auto-submit'),
+    '#description' => t('When enabled, the search form will automatically be submitted when a selection is made by pressing "Enter".'),
+    '#default_value' => isset($search->options['autosubmit']) ? $search->options['autosubmit'] : TRUE,
+    '#parents' => array('options', 'autosubmit'),
+  );
 
   $form['submit'] = array(
     '#type' => 'submit',

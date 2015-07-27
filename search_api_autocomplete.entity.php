@@ -176,6 +176,13 @@ class SearchApiAutocompleteSearch extends Entity {
    */
   public function alterElement(array &$element, array $fields = array()) {
     if (search_api_autocomplete_access($this)) {
+      // Add option defaults (in case of updates from earlier versions).
+      $options = $this->options + array(
+        'submit_button_selector' => ':submit',
+        'autosubmit' => TRUE,
+        'min_length' => 1,
+      );
+
       $fields_string = $fields ? implode(' ', $fields) : '-';
 
       $module_path = drupal_get_path('module', 'search_api_autocomplete');
@@ -183,8 +190,8 @@ class SearchApiAutocompleteSearch extends Entity {
       $element['#attached']['js'][] = $module_path . '/search_api_autocomplete.js';
 
       $js_settings = array();
-      if (isset($this->options['submit_button_selector']) && $this->options['submit_button_selector'] != ':submit') {
-        $js_settings['selector'] = $this->options['submit_button_selector'];
+      if ($options['submit_button_selector'] != ':submit') {
+        $js_settings['selector'] = $options['submit_button_selector'];
       }
       if (($delay = variable_get('search_api_autocomplete_delay')) !== NULL) {
         $js_settings['delay'] = $delay;
@@ -199,8 +206,9 @@ class SearchApiAutocompleteSearch extends Entity {
       $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
       $element += array('#attributes' => array());
       $element['#attributes'] += array('class'=> array());
-      $element['#attributes']['class'][] = 'auto_submit';
-      $options = $this->options + array('min_length' => 1);
+      if($options['autosubmit']) {
+        $element['#attributes']['class'][] = 'auto_submit';
+      }
       if ($options['min_length'] > 1) {
         $element['#attributes']['data-min-autocomplete-length'] = $options['min_length'];
       }
