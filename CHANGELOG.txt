@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2503613 by drunken monkey: Fixed issues with multiple search fields on the
+  same page.
 - #2493919 by sg88, drunken monkey: Added the option to disable auto-submit.
 - #2502937 by drunken monkey: Added flexibility for returned suggestions.
 - #2503593 by drunken monkey: Added a hidden variable for changing the

@@ -3,6 +3,20 @@
 // Auto-submit main search input after autocomplete
 if (typeof Drupal.jsAC != 'undefined') {
 
+  var getSetting = function (input, setting, defaultValue) {
+    // Earlier versions of jQuery, like the default for Drupal 7, don't properly
+    // convert data-* attributes to camel case, so we access it via the verbatim
+    // name from the attribute (which also works in newer versions).
+    var search = $(input).data('search-api-autocomplete-search');
+    if (typeof search == 'undefined'
+        || typeof Drupal.settings.search_api_autocomplete == 'undefined'
+        || typeof Drupal.settings.search_api_autocomplete[search] == 'undefined'
+        || typeof Drupal.settings.search_api_autocomplete[search][setting] == 'undefined') {
+      return defaultValue;
+    }
+    return Drupal.settings.search_api_autocomplete[search][setting];
+  };
+
   /**
    * Handler for the "keyup" event.
    *
@@ -15,16 +29,10 @@ if (typeof Drupal.jsAC != 'undefined') {
       e = window.event;
     }
     // Fire standard function.
-    $.proxy(default_onkeyup, this)(input, e);
+    default_onkeyup.call(this, input, e);
 
     if (13 == e.keyCode && $(input).hasClass('auto_submit')) {
-      var selector;
-      if (typeof Drupal.settings.search_api_autocomplete.selector != 'undefined') {
-        selector = Drupal.settings.search_api_autocomplete.selector;
-      }
-      else {
-        selector = ':submit';
-      }
+      var selector = getSetting(input, 'selector', ':submit');
       $(selector, input.form).trigger('click');
     }
   };
@@ -41,9 +49,9 @@ if (typeof Drupal.jsAC != 'undefined') {
       e = window.event;
     }
     // Fire standard function.
-    $.proxy(default_onkeydown, this)(input, e);
+    default_onkeydown.call(this, input, e);
 
-    // Prevent that the ajax handling of views fires to early and thus
+    // Prevent that the ajax handling of Views fires too early and thus
     // misses the form update.
     if (13 == e.keyCode && $(input).hasClass('auto_submit')) {
       e.preventDefault();
@@ -66,14 +74,7 @@ if (typeof Drupal.jsAC != 'undefined') {
         Drupal.search_api_ajax.navigateQuery($(this.input).val());
       }
       else {
-        var selector;
-        if (Drupal.settings.search_api_autocomplete && typeof Drupal.settings.search_api_autocomplete.selector != 'undefined') {
-          selector = Drupal.settings.search_api_autocomplete.selector;
-        }
-        else {
-          selector = ':submit';
-        }
-
+        var selector = getSetting(this.input, 'selector', ':submit');
         $(selector, this.input.form).trigger('click');
       }
       return true;
@@ -154,10 +155,7 @@ Drupal.ACDB.prototype.search = function (searchString) {
     });
   };
   // Make it possible to override the delay via a setting.
-  var delay = this.delay;
-  if (Drupal.settings.search_api_autocomplete && typeof Drupal.settings.search_api_autocomplete.delay != 'undefined') {
-    delay = Drupal.settings.search_api_autocomplete.delay;
-  }
+  var delay = getSetting(this.owner.input, 'delay', this.delay);
   if (delay > 0) {
     this.timer = setTimeout(sendAjaxRequest, delay);
   }

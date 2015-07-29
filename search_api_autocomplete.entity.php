@@ -199,16 +199,21 @@ class SearchApiAutocompleteSearch extends Entity {
       if ($js_settings) {
         $element['#attached']['js'][] = array(
           'type' => 'setting',
-          'data' => array('search_api_autocomplete' => $js_settings),
+          'data' => array(
+            'search_api_autocomplete' => array(
+              $this->machine_name => $js_settings,
+            ),
+          ),
         );
       }
 
       $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
       $element += array('#attributes' => array());
       $element['#attributes'] += array('class'=> array());
-      if($options['autosubmit']) {
+      if ($options['autosubmit']) {
         $element['#attributes']['class'][] = 'auto_submit';
       }
+      $element['#attributes']['data-search-api-autocomplete-search'] = $this->machine_name;
       if ($options['min_length'] > 1) {
         $element['#attributes']['data-min-autocomplete-length'] = $options['min_length'];
       }
