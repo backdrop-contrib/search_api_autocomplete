@@ -179,18 +179,27 @@ interface SearchApiAutocompleteSuggesterInterface {
    *   The complete user input for the fulltext search keywords so far.
    *
    * @return array
-   *   An array of suggestion. Each suggestion is either a simple string
+   *   An array of suggestions. Each suggestion is either a simple string
    *   containing the whole suggested keywords, or an array containing the
    *   following keys:
+   *   - keys: The keyword (or keywords) this suggestion will autocomplete to.
+   *     If it is not present, a direct concatenation (no spaces in between) of
+   *     "suggestion_prefix", "user_input" and "suggestion_suffix" will be used
+   *     instead.
+   *   - url: A URL to which the suggestion should redirect instead of
+   *     completing the user input in the text field. This overrides the normal
+   *     behavior and thus makes "keys" obsolete.
    *   - prefix: For special suggestions, some kind of prefix describing them.
    *   - suggestion_prefix: A suggested prefix for the entered input.
    *   - user_input: The input entered by the user. Defaults to $user_input.
    *   - suggestion_suffix: A suggested suffix for the entered input.
    *   - results: If available, the estimated number of results for these keys.
-   *   The search keys inserted for the suggestion will be a direct
-   *   concatenation (no spaces in between) of "suggestion_prefix", "user_input"
-   *   and "suggestion_suffix". Therefore, at least one of them has to have a
-   *   non-empty value. Apart from this, all the keys are optional.
+   *   - render: If given, an HTML string or render array which should be
+   *     displayed to the user for this suggestion. If missing, the suggestion
+   *     is instead passed to theme_search_api_autocomplete_suggestion().
+   *   All the keys are optional, with the exception that at least one of
+   *   "keys", "url", "suggestion_prefix", "user_input" or "suggestion_suffix"
+   *   has to be present.
    */
   public function getAutocompleteSuggestions(SearchApiQueryInterface $query, $incomplete_key, $user_input);
 

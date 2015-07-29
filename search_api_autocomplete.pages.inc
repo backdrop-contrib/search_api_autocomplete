@@ -57,7 +57,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
             // Add defaults.
             $suggestion += array(
               'url' => NULL,
-              'term' => NULL,
+              'keys' => NULL,
               'prefix' => NULL,
               'suggestion_prefix' => '',
               'user_input' => $keys,
@@ -74,12 +74,12 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
               $key = ' ' . $suggestion['url'];
             }
             else {
-              // Also set the "term" key so it will always be available in alter
+              // Also set the "keys" key so it will always be available in alter
               // hooks and the theme function.
-              if (!isset($suggestion['term'])) {
-                $suggestion['term'] = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
+              if (!isset($suggestion['keys'])) {
+                $suggestion['keys'] = $suggestion['suggestion_prefix'] . $suggestion['user_input'] . $suggestion['suggestion_suffix'];
               }
-              $key = trim($suggestion['term']);
+              $key = trim($suggestion['keys']);
             }
 
             if (!isset($ret[$key])) {
@@ -119,7 +119,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
  *
  * @param array $variables
  *   An associative array containing:
- *   - term: The keyword (or keywords) this suggestion will autocomplete to.
+ *   - keys: The keyword (or keywords) this suggestion will autocomplete to.
  *   - prefix: For special suggestions, some kind of prefix describing them.
  *   - suggestion_prefix: A suggested prefix for the entered input.
  *   - user_input: The input entered by the user.
