@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xx/xx/xxxx):
 ----------------------------------------------
+- #2458629 by sherakama, drunken monkey, mgifford: Added ARIA roles for search
+  field and parent wrapper.
 - #2503613 by drunken monkey: Fixed issues with multiple search fields on the
   same page.
 - #2493919 by sg88, drunken monkey: Added the option to disable auto-submit.

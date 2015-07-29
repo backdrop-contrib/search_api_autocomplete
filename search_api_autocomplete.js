@@ -17,6 +17,21 @@ if (typeof Drupal.jsAC != 'undefined') {
     return Drupal.settings.search_api_autocomplete[search][setting];
   };
 
+  var oldJsAC = Drupal.jsAC;
+  /**
+   * An AutoComplete object.
+   *
+   * Overridden to set the proper "role" attribute on the input element.
+   */
+  Drupal.jsAC = function ($input, db) {
+    if ($input.data('search-api-autocomplete-search')) {
+      $input.attr('role', 'combobox');
+      $input.parent().attr('role', 'search');
+    }
+    oldJsAC.call(this, $input, db);
+  };
+  Drupal.jsAC.prototype = oldJsAC.prototype;
+
   /**
    * Handler for the "keyup" event.
    *
