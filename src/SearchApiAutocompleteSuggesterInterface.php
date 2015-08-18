@@ -189,7 +189,8 @@ interface SearchApiAutocompleteSuggesterInterface {
    *   - url: A URL to which the suggestion should redirect instead of
    *     completing the user input in the text field. This overrides the normal
    *     behavior and thus makes "keys" obsolete.
-   *   - prefix: For special suggestions, some kind of prefix describing them.
+   *   - prefix: For special suggestions, some kind of HTML prefix describing
+   *     them.
    *   - suggestion_prefix: A suggested prefix for the entered input.
    *   - user_input: The input entered by the user. Defaults to $user_input.
    *   - suggestion_suffix: A suggested suffix for the entered input.
