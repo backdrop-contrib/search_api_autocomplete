@@ -78,6 +78,9 @@ search_api_autocomplete_scripts:
   valid callback in its "#callback" key, as described by
   callback_search_api_autocomplete_script_url() in
   search_api_autocomplete.api.php.
+  See [4] for more information.
+
+[4] https://www.drupal.org/node/2559699
 
 
 Information for developers
