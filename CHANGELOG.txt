@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #2503607 by drunken monkey: Added support for custom autocomplete scripts.
 - #2458629 by sherakama, drunken monkey, mgifford: Added ARIA roles for search
   field and parent wrapper.
 - #2503613 by drunken monkey: Fixed issues with multiple search fields on the

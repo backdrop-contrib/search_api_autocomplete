@@ -146,11 +146,23 @@ Drupal.ACDB.prototype.search = function (searchString) {
   var sendAjaxRequest = function () {
     db.owner.setStatus('begin');
 
-    // Ajax GET request for autocompletion. We use Drupal.encodePath instead of
-    // encodeURIComponent to allow autocomplete search terms to contain slashes.
+    var url;
+
+    // Allow custom Search API Autocomplete overrides for specific searches.
+    if (getSetting(db.owner.input, 'custom_path', false)) {
+      var queryChar = db.uri.indexOf('?') >= 0 ? '&' : '?';
+      url = db.uri + queryChar + 'search=' + encodeURIComponent(searchString);
+    }
+    else {
+      // We use Drupal.encodePath instead of encodeURIComponent to allow
+      // autocomplete search terms to contain slashes.
+      url = db.uri + '/' + Drupal.encodePath(searchString);
+    }
+
+    // Ajax GET request for autocompletion.
     $.ajax({
       type: 'GET',
-      url: db.uri + '/' + Drupal.encodePath(searchString),
+      url: url,
       dataType: 'json',
       success: function (matches) {
         if (typeof matches.status == 'undefined' || matches.status != 0) {

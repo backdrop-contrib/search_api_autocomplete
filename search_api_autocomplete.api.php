@@ -448,3 +448,38 @@ function example_search_api_query_alter(SearchApiQueryInterface $query) {
     $query->condition('group', $user->data['group']);
   }
 }
+
+/**
+ * Returns the URL to use for a custom script.
+ *
+ * @param SearchApiAutocompleteSearch $search
+ *   The autocomplete search in question.
+ * @param array $element
+ *   The form element for which autocompletion is being added.
+ * @param array $config
+ *   The complete array set for this search in the
+ *   "search_api_autocomplete_scripts" variable.
+ *
+ * @return string
+ *   A valid relative or absolute URL, as returned by url().
+ *
+ * @ingroup callbacks
+ */
+function callback_search_api_autocomplete_script_url(SearchApiAutocompleteSearch $search, array $element, array $config) {
+  // Solution to use a custom script on multilingual sites which have the
+  // current language as the first path element.
+  global $language;
+  $options = array(
+    'absolute' => TRUE,
+    // Don't prefix the path with the language, always point to the root
+    // directory. Instead we pass the language as a GET parameter.
+    'language' => (object) array(
+      'language' => '',
+    ),
+    'query' => array(
+      'machine_name' => $search->machine_name,
+      'language' => $language->language,
+    ),
+  );
+  return url($config['#url'], $options);
+}

@@ -64,6 +64,21 @@ search_api_autocomplete_delay:
   API Autocomplete forms, not on other pages with autocomplete fields. The unit
   of the value is milliseconds, the default is 300.
 
+search_api_autocomplete_scripts:
+  Allows you to override the autocomplete URL used by the module on a per-search
+  basis. The value should be an associative array mapping autocomplete search
+  machine names to their custom URLs. The script will receive the user input as
+  the "search" GET parameter and should respond with a JSON dictionary mapping
+  suggestions to an HTML string that should be displayed for them.
+  As the URL you can either use a relative path on the site or an absolute URL.
+  Use absolute URLs to avoid problems with things like language-specific path
+  prefixes. Note, though, that external URLs might not work due to security
+  restrictions in browsers.
+  Instead of a URL you can also set an associative array. This should have a
+  valid callback in its "#callback" key, as described by
+  callback_search_api_autocomplete_script_url() in
+  search_api_autocomplete.api.php.
+
 
 Information for developers
 --------------------------

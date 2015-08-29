@@ -186,6 +186,7 @@ class SearchApiAutocompleteSearch extends Entity {
       $fields_string = $fields ? implode(' ', $fields) : '-';
 
       $module_path = drupal_get_path('module', 'search_api_autocomplete');
+      $autocomplete_path = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
       $element['#attached']['css'][] = $module_path . '/search_api_autocomplete.css';
       $element['#attached']['js'][] = $module_path . '/search_api_autocomplete.js';
 
@@ -196,6 +197,24 @@ class SearchApiAutocompleteSearch extends Entity {
       if (($delay = variable_get('search_api_autocomplete_delay')) !== NULL) {
         $js_settings['delay'] = $delay;
       }
+
+      // Allow overriding of the default handler with a custom script.
+      $path_overrides = variable_get('search_api_autocomplete_scripts', array());
+      if (!empty($path_overrides[$this->machine_name])) {
+        $autocomplete_path = NULL;
+        $override = $path_overrides[$this->machine_name];
+        if (is_scalar($override)) {
+          $autocomplete_path = url($override, array('absolute' => TRUE, 'query' => array('machine_name' => $this->machine_name)));
+        }
+        elseif (!empty($override['#callback']) && is_callable($override['#callback'])) {
+          $autocomplete_path = call_user_func($override['#callback'], $this, $element, $override);
+        }
+        if (!$autocomplete_path) {
+          return;
+        }
+        $js_settings['custom_path'] = TRUE;
+      }
+
       if ($js_settings) {
         $element['#attached']['js'][] = array(
           'type' => 'setting',
@@ -207,7 +226,7 @@ class SearchApiAutocompleteSearch extends Entity {
         );
       }
 
-      $element['#autocomplete_path'] = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
+      $element['#autocomplete_path'] = $autocomplete_path;
       $element += array('#attributes' => array());
       $element['#attributes'] += array('class'=> array());
       if ($options['autosubmit']) {

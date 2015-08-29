@@ -91,6 +91,7 @@ function search_api_autocomplete_schema() {
  */
 function search_api_autocomplete_uninstall() {
   variable_del('search_api_autocomplete_delay');
+  variable_del('search_api_autocomplete_scripts');
 }
 
 /**
