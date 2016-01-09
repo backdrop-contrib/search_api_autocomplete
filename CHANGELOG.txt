@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #2572973 by drunken monkey: Fixed missing default value for suggester in new
+  settings.
 - #2564965 by drunken monkey: Fixed escaping of "Override used fields" options.
 
 Search API Autocomplete 1.4 (2015-08-29):

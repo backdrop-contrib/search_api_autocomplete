@@ -62,6 +62,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
         unset($searches[$id]);
       }
       else {
+        reset($available_suggesters);
         $search += array(
           'machine_name' => $id,
           'index_id' => $index_id,
