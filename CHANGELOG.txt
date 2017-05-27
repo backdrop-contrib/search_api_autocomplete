@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #2772143 by drunken monkey: Fixed missing language restriction on search
+  pages.
 - #1983442 by Rob230, drunken monkey: Fixed problems with multiple autocomplete
   fields in one view.
 - #2572973 by drunken monkey: Fixed missing default value for suggester in new
