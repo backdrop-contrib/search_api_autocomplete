@@ -1,5 +1,5 @@
-Search API Autocomplete 1.x, dev (xxxx-xx-xx):
-----------------------------------------------
+Search API Autocomplete 1.5 (2017-07-18):
+-----------------------------------------
 - #2772143 by drunken monkey: Fixed missing language restriction on search
   pages.
 - #1983442 by Rob230, drunken monkey: Fixed problems with multiple autocomplete
