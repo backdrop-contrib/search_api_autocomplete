@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #2977790 by drunken monkey, semanthis: Fixed auto-submit in AJAX views.
 - #2431111 by dagomar, drunken monkey, judapriest: Added support for
   transliteration.
 
