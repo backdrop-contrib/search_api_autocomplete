@@ -1,5 +1,7 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #3003098 by Andreas Radloff, drunken monkey: Fixed compatibility with other
+  autocomplete fields on the same page.
 
 Search API Autocomplete 1.6 (2018-09-17):
 -----------------------------------------
