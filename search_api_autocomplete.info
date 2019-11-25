@@ -5,6 +5,7 @@ core = 7.x
 package = Search
 
 files[] = search_api_autocomplete.entity.php
+files[] = src/SearchApiAutocompleteLiveResultsSuggester.php
 files[] = src/SearchApiAutocompleteSuggesterInterface.php
 files[] = src/SearchApiAutocompleteSuggesterPluginBase.php
 files[] = src/SearchApiAutocompleteServerSuggester.php
