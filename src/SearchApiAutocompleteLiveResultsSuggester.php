@@ -79,6 +79,7 @@ class SearchApiAutocompleteLiveResultsSuggester extends SearchApiAutocompleteSug
       if ($this->configuration['fields']) {
         $query->fields($this->configuration['fields']);
       }
+      $query->keys($user_input);
       $results = $query->execute();
     }
     catch (SearchApiException $e) {

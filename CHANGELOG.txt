@@ -1,5 +1,6 @@
 Search API Autocomplete 1.x, dev (xxxx-xx-xx):
 ----------------------------------------------
+- #2580217 by drunken monkey: Fixed bugs in "Live results" suggester.
 - #1567234 by mlamothe, piggito, drunken monkey: Added a "Live results"
   suggester.
 - #3003098 by Andreas Radloff, drunken monkey: Fixed compatibility with other
