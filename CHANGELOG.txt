@@ -1,5 +1,5 @@
-Search API Autocomplete 1.x, dev (xxxx-xx-xx):
-----------------------------------------------
+Search API Autocomplete 1.7 (2021-07-19):
+-----------------------------------------
 - #2580217 by drunken monkey: Fixed bugs in "Live results" suggester.
 - #1567234 by mlamothe, piggito, drunken monkey: Added a "Live results"
   suggester.
