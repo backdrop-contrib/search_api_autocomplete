@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Contains code for integrating with the "Search pages" module.
+ * Contains code for integrating with the "Search API pages" module.
  */
 
 /**

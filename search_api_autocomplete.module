@@ -336,7 +336,7 @@ function search_api_autocomplete_search_load($id, $reset = FALSE) {
  */
 function search_api_autocomplete_search_load_multiple($ids = FALSE, array $conditions = array(), $reset = FALSE) {
   $searches = entity_load('search_api_autocomplete_search', $ids, $conditions, $reset);
-  return entity_key_array_by_property($searches, 'machine_name');
+  return entity_plus_key_array_by_property($searches, 'machine_name');
 }
 
 /**

@@ -84,7 +84,7 @@ class SearchApiAutocompleteSearch extends Entity {
    *   The entity properties.
    */
   public function __construct(array $values = array()) {
-    parent::__construct($values, 'search_api_autocomplete_search');
+    parent::__construct($values);
   }
 
   /**
