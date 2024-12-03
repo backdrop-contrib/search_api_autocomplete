@@ -1,7 +1,7 @@
 (function ($) {
 
 // Auto-submit main search input after autocomplete
-if (typeof Drupal.jsAC != 'undefined') {
+if (typeof Backdrop.jsAC != 'undefined') {
 
   var getSetting = function (input, setting, defaultValue) {
     // Earlier versions of jQuery, like the default for Drupal 7, don't properly
@@ -9,21 +9,21 @@ if (typeof Drupal.jsAC != 'undefined') {
     // name from the attribute (which also works in newer versions).
     var search = $(input).data('search-api-autocomplete-search');
     if (typeof search == 'undefined'
-        || typeof Drupal.settings.search_api_autocomplete == 'undefined'
-        || typeof Drupal.settings.search_api_autocomplete[search] == 'undefined'
-        || typeof Drupal.settings.search_api_autocomplete[search][setting] == 'undefined') {
+        || typeof Backdrop.settings.search_api_autocomplete == 'undefined'
+        || typeof Backdrop.settings.search_api_autocomplete[search] == 'undefined'
+        || typeof Backdrop.settings.search_api_autocomplete[search][setting] == 'undefined') {
       return defaultValue;
     }
-    return Drupal.settings.search_api_autocomplete[search][setting];
+    return Backdrop.settings.search_api_autocomplete[search][setting];
   };
 
-  var oldJsAC = Drupal.jsAC;
+  var oldJsAC = Backdrop.jsAC;
   /**
    * An AutoComplete object.
    *
    * Overridden to set the proper "role" attribute on the input element.
    */
-  Drupal.jsAC = function ($input, db) {
+  Backdrop.jsAC = function ($input, db) {
     if ($input.data('search-api-autocomplete-search')) {
       $input.attr('role', 'combobox');
       $input.parent().attr('role', 'search');
@@ -31,7 +31,7 @@ if (typeof Drupal.jsAC != 'undefined') {
     this.inSelect = false;
     oldJsAC.call(this, $input, db);
   };
-  Drupal.jsAC.prototype = oldJsAC.prototype;
+  Backdrop.jsAC.prototype = oldJsAC.prototype;
 
   /**
    * Handler for the "keyup" event.
@@ -39,8 +39,8 @@ if (typeof Drupal.jsAC != 'undefined') {
    * Extend from Drupal's autocomplete.js to automatically submit the form
    * when Enter is hit.
    */
-  var default_onkeyup = Drupal.jsAC.prototype.onkeyup;
-  Drupal.jsAC.prototype.onkeyup = function (input, e) {
+  var default_onkeyup = Backdrop.jsAC.prototype.onkeyup;
+  Backdrop.jsAC.prototype.onkeyup = function (input, e) {
     if (!e) {
       e = window.event;
     }
@@ -59,8 +59,8 @@ if (typeof Drupal.jsAC != 'undefined') {
    * Extend from Drupal's autocomplete.js to avoid ajax interfering with the
    * autocomplete.
    */
-  var default_onkeydown = Drupal.jsAC.prototype.onkeydown;
-  Drupal.jsAC.prototype.onkeydown = function (input, e) {
+  var default_onkeydown = Backdrop.jsAC.prototype.onkeydown;
+  Backdrop.jsAC.prototype.onkeydown = function (input, e) {
     if (!e) {
       e = window.event;
     }
@@ -75,8 +75,8 @@ if (typeof Drupal.jsAC != 'undefined') {
     }
   };
 
-  var default_select = Drupal.jsAC.prototype.select;
-  Drupal.jsAC.prototype.select = function(node) {
+  var default_select = Backdrop.jsAC.prototype.select;
+  Backdrop.jsAC.prototype.select = function(node) {
     // Check if this is a Search API autocomplete field
     if (!$(this.input).data('search-api-autocomplete-search')) {
       // Not a Search API field
@@ -99,9 +99,9 @@ if (typeof Drupal.jsAC != 'undefined') {
     this.input.value = autocompleteValue;
     $(this.input).trigger('autocompleteSelect', [node]);
     if ($(this.input).hasClass('auto_submit')) {
-      if (typeof Drupal.search_api_ajax != 'undefined') {
+      if (typeof Backdrop.search_api_ajax != 'undefined') {
         // Use Search API Ajax to submit
-        Drupal.search_api_ajax.navigateQuery($(this.input).val());
+        Backdrop.search_api_ajax.navigateQuery($(this.input).val());
       }
       else {
         var selector = getSetting(this.input, 'selector', ':submit');
@@ -119,7 +119,7 @@ if (typeof Drupal.jsAC != 'undefined') {
    * Just always return true to make it possible to submit even when there was
    * an autocomplete suggestion list open.
    */
-  Drupal.autocompleteSubmit = function () {
+  Backdrop.autocompleteSubmit = function () {
     $('#autocomplete').each(function () {
       this.owner.hidePopup();
     });
@@ -129,7 +129,7 @@ if (typeof Drupal.jsAC != 'undefined') {
   /**
    * Performs a cached and delayed search.
    */
-  Drupal.ACDB.prototype.search = function (searchString) {
+  Backdrop.ACDB.prototype.search = function (searchString) {
     this.searchString = searchString;
 
     // Check allowed length of string for autocomplete.
@@ -172,7 +172,7 @@ if (typeof Drupal.jsAC != 'undefined') {
       else {
         // We use Drupal.encodePath instead of encodeURIComponent to allow
         // autocomplete search terms to contain slashes.
-        url = db.uri + '/' + Drupal.encodePath(searchString);
+        url = db.uri + '/' + Backdrop.encodePath(searchString);
       }
 
       // Ajax GET request for autocompletion.
@@ -192,7 +192,7 @@ if (typeof Drupal.jsAC != 'undefined') {
         },
         error: function (xmlhttp) {
           if (xmlhttp.status) {
-            alert(Drupal.ajaxError(xmlhttp, db.uri));
+            alert(Backdrop.ajaxError(xmlhttp, db.uri));
           }
         }
       });

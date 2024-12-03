@@ -5,9 +5,3 @@ core = 7.x
 backdrop = 1.x
 type = module
 package = Search
-
-files[] = search_api_autocomplete.entity.php
-files[] = src/SearchApiAutocompleteLiveResultsSuggester.php
-files[] = src/SearchApiAutocompleteSuggesterInterface.php
-files[] = src/SearchApiAutocompleteSuggesterPluginBase.php
-files[] = src/SearchApiAutocompleteServerSuggester.php

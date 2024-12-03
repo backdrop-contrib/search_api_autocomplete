@@ -317,4 +317,11 @@ class SearchApiAutocompleteSearch extends Entity {
     return array();// @todo verify
   }
 
+  /**
+   * @todo do I have to implement that and why? And what is this, anyway?
+   */
+  public function hasStatus($status) {
+    return ($status == $this->status);// Only to return something at all...
+  }
+
 }

@@ -129,7 +129,7 @@ function search_api_autocomplete_theme() {
 function search_api_autocomplete_entity_info() {
   $info['search_api_autocomplete_search'] = array(
     'label' => t('Autocomplete search'),
-    'controller class' => 'EntityAPIControllerExportable',
+    'controller class' => 'EntityPlusControllerExportable',
     'entity class' => 'SearchApiAutocompleteSearch',
     'base table' => 'search_api_autocomplete_search',
     'uri callback' => 'search_api_autocomplete_search_url',// @todo no such callback?
@@ -192,7 +192,7 @@ function search_api_autocomplete_access(SearchApiAutocompleteSearch $search, $ac
  * Implements hook_search_api_index_delete().
  */
 function search_api_autocomplete_search_api_index_delete(SearchApiIndex $index) {
-  if (!$index->hasStatus(ENTITY_IN_CODE)) {
+  if (!$index->hasStatus(ENTITY_PLUS_IN_CODE)) {
     $ids = db_query('SELECT id FROM {search_api_autocomplete_search} WHERE index_id = :id',
         array(':id' => $index->machine_name))->fetchCol();
     if ($ids) {
@@ -346,6 +346,7 @@ function search_api_autocomplete_autoload_info() {
   return array(
     'SearchApiAutocompleteLiveResultsSuggester' => 'src/SearchApiAutocompleteLiveResultsSuggester.php',
     'SearchApiAutocompleteServerSuggester' => 'src/SearchApiAutocompleteServerSuggester.php',
+    'SearchApiAutocompleteSuggesterInterface' => 'src/SearchApiAutocompleteSuggesterInterface.php',
     'SearchApiAutocompleteSuggesterPluginBase' => 'src/SearchApiAutocompleteSuggesterPluginBase.php',
     'SearchApiAutocompleteSearch' => 'search_api_autocomplete.entity.php',
     'SearchApiAutocompleteInterface' => 'search_api_autocomplete.interface.php',

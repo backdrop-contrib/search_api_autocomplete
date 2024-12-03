@@ -57,7 +57,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
     foreach ($t_searches as $id => $search) {
       if (isset($searches[$id])) {
         $types[$type]['searches'][$id] = $searches[$id];
-        $show_status |= $searches[$id]->hasStatus(ENTITY_IN_CODE);
+        $show_status |= $searches[$id]->hasStatus(ENTITY_PLUS_IN_CODE);
         unset($searches[$id]);
       }
       else {
@@ -82,7 +82,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
     $type = isset($types[$search->type]) ? $search->type : '';
     $types[$type]['searches'][$id] = $search;
     $types[$type]['unavailable'][$id] = TRUE;
-    $show_status |= $search->hasStatus(ENTITY_IN_CODE);
+    $show_status |= $search->hasStatus(ENTITY_PLUS_IN_CODE);
   }
   $base_path = 'admin/config/search/search_api/index/' . $index_id . '/autocomplete/';
   foreach ($types as $type => $info) {
@@ -140,8 +140,8 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
       if (!$unavailable && !empty($search->id)) {
         $items[] = l(t('edit'), $base_path . $id . '/edit');
       }
-      if (!empty($search->status) && ($search->hasStatus(ENTITY_CUSTOM))) {
-        $title = $search->hasStatus(ENTITY_IN_CODE) ? t('revert') : t('delete');
+      if (!empty($search->status) && ($search->hasStatus(ENTITY_PLUS_CUSTOM))) {
+        $title = $search->hasStatus(ENTITY_PLUS_IN_CODE) ? t('revert') : t('delete');
         $items[] = l($title, $base_path . $id . '/delete');
       }
       if ($items) {
