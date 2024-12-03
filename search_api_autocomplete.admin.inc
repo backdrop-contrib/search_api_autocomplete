@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains page callbacks and related functions for the admin UI.
@@ -26,7 +25,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
       '@feature' => 'search_api_autocomplete',
       '@service_classes_url' => url('https://www.drupal.org/node/1254698#service-classes'),
     );
-    drupal_set_message(t('There are currently no suggester plugins installed that support this index. To solve this problem, you can either:<ul><li>move the index to a server which supports the "@feature" feature (see the <a href="@service_classes_url">available service class</a>)</li><li>or install a module providing a new suggester plugin that supports this index</li></ul>', $args), 'error');
+    backdrop_set_message(t('There are currently no suggester plugins installed that support this index. To solve this problem, you can either:<ul><li>move the index to a server which supports the "@feature" feature (see the <a href="@service_classes_url">available service class</a>)</li><li>or install a module providing a new suggester plugin that supports this index</li></ul>', $args), 'error');
     if (search_api_autocomplete_search_load_multiple(FALSE, array('index_id' => $index_id))) {
       $form['description'] = array(
         '#type' => 'item',
@@ -193,7 +192,7 @@ function search_api_autocomplete_admin_overview_submit(array $form, array &$form
       $search->save();
     }
   }
-  drupal_set_message(empty($change) ? t('No values were changed.') : $msg);
+  backdrop_set_message(empty($change) ? t('No values were changed.') : $msg);
 }
 
 /**
@@ -207,10 +206,10 @@ function search_api_autocomplete_admin_overview_submit_delete(array $form, array
   $ids = array_keys(search_api_autocomplete_search_load_multiple(FALSE, array('index_id' => $index->machine_name)));
   if ($ids) {
     entity_delete_multiple('search_api_autocomplete_search', $ids);
-    drupal_set_message(t('All autocompletion settings stored for this index were deleted.'));
+    backdrop_set_message(t('All autocompletion settings stored for this index were deleted.'));
   }
   else {
-    drupal_set_message(t('There were no settings to delete.'), 'warning');
+    backdrop_set_message(t('There were no settings to delete.'), 'warning');
   }
   $form_state['redirect'] = 'admin/config/search/search_api/index/' . $index->machine_name;
 }
@@ -227,7 +226,7 @@ function search_api_autocomplete_admin_overview_submit_delete(array $form, array
  * @see search_api_autocomplete_admin_search_edit_submit()
  */
 function search_api_autocomplete_admin_search_edit(array $form, array &$form_state, SearchApiAutocompleteSearch $search) {
-  drupal_set_title(t('Configure autocompletion for %search', array('%search' => $search->name)), PASS_THROUGH);
+  backdrop_set_title(t('Configure autocompletion for %search', array('%search' => $search->name)), PASS_THROUGH);
 
   // If this is a re-build (i.e., most likely an AJAX call due to a new
   // suggester being selected), prepare the suggester sub-form state
@@ -246,7 +245,7 @@ function search_api_autocomplete_admin_search_edit(array $form, array &$form_sta
   $form_state['search'] = $search;
   $form_state['type'] = $type = search_api_autocomplete_get_types($search->type);
   if (!$type) {
-    drupal_set_message(t('No information about the type of this search was found.'), 'error');
+    backdrop_set_message(t('No information about the type of this search was found.'), 'error');
     return array();
   }
   $form['#tree'] = TRUE;
@@ -454,13 +453,13 @@ function search_api_autocomplete_admin_search_edit_submit(array $form, array &$f
   else {
     $values['options']['suggester_configuration'] = array();
     $form_state['redirect'] = NULL;
-    drupal_set_message(t('The used suggester plugin has changed. Please review the configuration for the new plugin.'), 'warning');
+    backdrop_set_message(t('The used suggester plugin has changed. Please review the configuration for the new plugin.'), 'warning');
   }
 
   $search->options = $values['options'];
 
   $search->save();
-  drupal_set_message(t('The autocompletion settings for the search have been saved.'));
+  backdrop_set_message(t('The autocompletion settings for the search have been saved.'));
 }
 
 /**
@@ -514,6 +513,6 @@ function search_api_autocomplete_admin_search_delete(array $form, array &$form_s
  */
 function search_api_autocomplete_admin_search_delete_submit(array $form, array &$form_state) {
   $form_state['search']->delete();
-  drupal_set_message(t('The autocompletion settings for the search have been deleted.'));
+  backdrop_set_message(t('The autocompletion settings for the search have been deleted.'));
   $form_state['redirect'] = 'admin/config/search/search_api/index/' . $form_state['search']->index_id . '/autocomplete';
 }

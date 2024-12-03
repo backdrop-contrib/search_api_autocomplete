@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains code for integrating with the "Search views" module.
@@ -29,7 +28,7 @@ function search_api_autocomplete_form_views_exposed_form_alter(array &$form, arr
   $fields = $index->getFulltextFields(TRUE);
   // Add the "Search: Fulltext search" filter as another text field.
   $fields[] = 'search_api_views_fulltext';
-  drupal_alter('search_api_autocomplete_views_fulltext_fields', $fields, $search, $view);
+  backdrop_alter('search_api_autocomplete_views_fulltext_fields', $fields, $search, $view);
   foreach ($view->filter as $filter_name => $filter) {
     if (in_array($filter->real_field, $fields)) {
       if (!empty($filter->options['expose']['identifier'])) {
@@ -133,7 +132,7 @@ function search_api_autocomplete_views_config_form(array $form, array &$form_sta
     '#title' => t('Views display'),
     '#description' => t('Please select the Views display whose settings should be used for autocomplete queries.<br />' .
         "<strong>Note:</strong> Autocompletion doesn't work well with contextual filters. Please see the <a href='@readme_url'>README.txt</a> file for details.",
-        array('@readme_url' => url(drupal_get_path('module', 'search_api_autocomplete') . '/README.txt'))),
+        array('@readme_url' => url(backdrop_get_path('module', 'search_api_autocomplete') . '/README.txt'))),
     '#options' => $options,
     '#default_value' => isset($search->options['custom']['display']) ? $search->options['custom']['display'] : 'default',
   );
@@ -153,7 +152,7 @@ function search_api_autocomplete_views_config_form_submit(array $form, array &$f
   $view->set_display($values['display']);
   $view->pre_execute();
   if ($view->argument) {
-    drupal_set_message(t('You have selected a display with contextual filters. This can lead to various problems. Please see the <a href="@readme_url">README.txt</a> file for details.',
-        array('@readme_url' => url(drupal_get_path('module', 'search_api_autocomplete') . '/README.txt'))), 'warning');
+    backdrop_set_message(t('You have selected a display with contextual filters. This can lead to various problems. Please see the <a href="@readme_url">README.txt</a> file for details.',
+        array('@readme_url' => url(backdrop_get_path('module', 'search_api_autocomplete') . '/README.txt'))), 'warning');
   }
 }

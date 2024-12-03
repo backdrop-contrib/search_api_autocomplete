@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains SearchApiAutocompleteServerSuggester.
@@ -51,10 +50,10 @@ class SearchApiAutocompleteServerSuggester extends SearchApiAutocompleteSuggeste
       '#title' => t('Override used fields'),
       '#description' => t('Select the fields which should be searched for matches when looking for autocompletion suggestions. Leave blank to use the same fields as the underlying search.'),
       '#options' => $options,
-      '#default_value' => drupal_map_assoc($this->configuration['fields']),
+      '#default_value' => backdrop_map_assoc($this->configuration['fields']),
       '#attributes' => array('class' => array('search-api-checkboxes-list')),
     );
-    $form['#attached']['css'][] = drupal_get_path('module', 'search_api') . '/search_api.admin.css';
+    $form['#attached']['css'][] = backdrop_get_path('module', 'search_api') . '/search_api.admin.css';
 
     return $form;
   }

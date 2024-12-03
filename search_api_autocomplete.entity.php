@@ -185,19 +185,19 @@ class SearchApiAutocompleteSearch extends Entity {
 
       $fields_string = $fields ? implode(' ', $fields) : '-';
 
-      $module_path = drupal_get_path('module', 'search_api_autocomplete');
+      $module_path = backdrop_get_path('module', 'search_api_autocomplete');
       $autocomplete_path = 'search_api_autocomplete/' . $this->machine_name . '/' . $fields_string;
 
       $js_settings = array();
       if ($options['submit_button_selector'] != ':submit') {
         $js_settings['selector'] = $options['submit_button_selector'];
       }
-      if (($delay = variable_get('search_api_autocomplete_delay')) !== NULL) {
+      if (($delay = config_get('search_api_autocomplete.settings', 'search_api_autocomplete_delay')) !== NULL) {
         $js_settings['delay'] = $delay;
       }
 
       // Allow overriding of the default handler with a custom script.
-      $path_overrides = variable_get('search_api_autocomplete_scripts', array());
+      $path_overrides = config_get('search_api_autocomplete.settings', 'search_api_autocomplete_scripts');
       if (!empty($path_overrides[$this->machine_name])) {
         $autocomplete_path = NULL;
         $override = $path_overrides[$this->machine_name];
@@ -287,6 +287,34 @@ class SearchApiAutocompleteSearch extends Entity {
       $query->keys($complete);
     }
     return $query;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function id() {
+    return $this->id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function entityType() {
+    return 'search_api_autocomplete_search';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function label() {
+    return $this->name;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function uri() {
+    return array();// @todo verify
   }
 
 }

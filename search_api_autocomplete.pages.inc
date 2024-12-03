@@ -96,7 +96,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
             'incomplete_key' => $incomplete,
             'user_input' => $keys,
           );
-          drupal_alter('search_api_autocomplete_suggestions', $ret, $alter_params);
+          backdrop_alter('search_api_autocomplete_suggestions', $ret, $alter_params);
 
           foreach ($ret as $key => $suggestion) {
             if (isset($suggestion['render'])) {
@@ -120,7 +120,7 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
     watchdog_exception('search_api_autocomplete', $e, '%type while retrieving autocomplete suggestions: !message in %function (line %line of %file).');
   }
 
-  drupal_json_output($ret);
+  backdrop_json_output($ret);
 }
 
 /**
@@ -133,11 +133,8 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
  *   TRUE if transliteration is enabled, FALSE otherwise.
  */
 function _search_api_autocomplete_index_uses_translation(SearchApiIndex $index) {
-  if (module_exists('transliteration')) {
-    $processors = $index->options['processors'];
-    return !empty($processors['search_api_transliteration']['status']);
-  }
-  return FALSE;
+  $processors = $index->options['processors'];
+  return !empty($processors['search_api_transliteration']['status']);
 }
 
 /**

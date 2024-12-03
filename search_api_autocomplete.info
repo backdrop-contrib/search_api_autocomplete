@@ -2,6 +2,8 @@ name = Search API autocomplete
 description = "Adds autocomplete functionality to searches."
 dependencies[] = search_api
 core = 7.x
+backdrop = 1.x
+type = module
 package = Search
 
 files[] = search_api_autocomplete.entity.php
