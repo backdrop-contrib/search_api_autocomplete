@@ -94,5 +94,16 @@ function search_api_autocomplete_update_last_removed() {
 }
 
 /**
- * From variable to config @todo
+ * Convert variables to config.
  */
+function search_api_autocomplete_update_1000() {
+  $config = config('search_api_autocomplete.settings');
+  if (!$config->isNew()) {
+    return;
+  }
+  $config->set('search_api_autocomplete_delay', update_variable_get('search_api_autocomplete_delay', NULL));
+  $config->set('search_api_autocomplete_scripts', update_variable_get('search_api_autocomplete_scripts', array()));
+  $config->save();
+  update_variable_del('search_api_autocomplete_delay');
+  update_variable_del('search_api_autocomplete_scripts');
+}
