@@ -76,13 +76,13 @@ function search_api_autocomplete_views_searches(SearchApiIndex $index) {
 }
 
 /**
- * Create the query that would be issued for the given search for the complete keys.
+ * Create a query that would be issued for given search for the complete keys.
  *
  * @param SearchApiAutocompleteSearch $search
  *   The search for which to create the query.
- * @param $complete
+ * @param string $complete
  *   A string containing the complete search keys.
- * @param $incomplete
+ * @param string $incomplete
  *   A string containing the incomplete last search key.
  *
  * @return SearchApiQueryInterface

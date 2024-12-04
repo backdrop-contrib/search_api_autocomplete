@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Hooks provided by the Search API autocomplete module.
@@ -11,12 +10,12 @@
  */
 
 /**
- * Inform the module about types of searches for which autocompletion is available.
+ * Inform the module about search types for which autocompletion's available.
  *
  * The implementation has to take care of altering the search form accordingly
  * itself. This should be done by loading the appropriate
- * SearchApiAutocompleteSearch entity and calling its alterElement() method with
- * the textfield element to which autocompletion should be added. See
+ * SearchApiAutocompleteSearch entity and calling its alterElement() method
+ * with the textfield element to which autocompletion should be added. See
  * example_form_example_search_form_alter() for an example.
  *
  * @return array
@@ -194,7 +193,7 @@ function hook_search_api_autocomplete_search_delete(SearchApiAutocompleteSearch 
 /**
  * Define default search configurations.
  *
- * @return
+ * @return array
  *   An array of default searches, keyed by machine names.
  *
  * @see hook_default_search_api_autocomplete_search_alter()
@@ -293,13 +292,13 @@ function example_list_autocomplete_searches(SearchApiIndex $index) {
 }
 
 /**
- * Create the query that would be issued for the given search for the complete keys.
+ * Create the query that would be issued for the given search for complete keys.
  *
  * @param SearchApiAutocompleteSearch $search
  *   The search for which to create the query.
- * @param $complete
+ * @param string $complete
  *   A string containing the complete search keys.
- * @param $incomplete
+ * @param string $incomplete
  *   A string containing the incomplete last search key.
  *
  * @return SearchApiQueryInterface
@@ -328,7 +327,7 @@ function example_create_autocomplete_query(SearchApiAutocompleteSearch $search, 
 }
 
 /**
- * Form callback for configuring autocompletion for searches of the "example" type.
+ * Form callback for configuring autocompletion for searches of "example" type.
  *
  * The returned form array will be nested into an outer form, so you should not
  * rely on knowing the array structure (like the elements' parents) and should
@@ -344,8 +343,7 @@ function example_autocomplete_config_form(array $form, array &$form_state, Searc
   $form['user_filters'] = array(
     '#type' => 'textarea',
     '#title' => t('Custom filters'),
-    '#description' => t('Enter additional filters set on the autocompletion search. ' .
-        'Write one filter on each line, the field and its value separated by an equals sign (=).'),
+    '#description' => t('Enter additional filters set on the autocompletion search. Write one filter on each line, the field and its value separated by an equals sign (=).'),
     '#default_value' => empty($search->options['custom']['user_filters']) ? '' : $search->options['custom']['user_filters'],
   );
 

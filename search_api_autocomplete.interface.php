@@ -1,13 +1,11 @@
 <?php
-
 /**
  * @file
  * Contains SearchApiAutocompleteInterface.
  */
 
-
 /**
- * Interface describing the method a service class has to add to support autocompletion.
+ * Describes the method a service class has to add to support autocompletion.
  *
  * Please note that this interface is purely documentational. You shouldn't, and
  * can't, implement it explicitly (unless the module is depending on this one).

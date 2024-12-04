@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains page callbacks and theme functions for the frontend UI.
@@ -103,7 +102,12 @@ function search_api_autocomplete_autocomplete(SearchApiAutocompleteSearch $searc
               $ret[$key] = render($suggestion['render']);
             }
             else {
-              $escaped_variables = array('keys', 'suggestion_prefix', 'user_input', 'suggestion_suffix');
+              $escaped_variables = array(
+                'keys',
+                'suggestion_prefix',
+                'user_input',
+                'suggestion_suffix',
+              );
               foreach ($escaped_variables as $variable) {
                 if ($suggestion[$variable]) {
                   $suggestion[$variable] = check_plain($suggestion[$variable]);

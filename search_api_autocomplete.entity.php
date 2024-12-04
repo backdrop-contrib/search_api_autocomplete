@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains SearchApiAutocompleteSearch.
@@ -202,7 +201,10 @@ class SearchApiAutocompleteSearch extends Entity {
         $autocomplete_path = NULL;
         $override = $path_overrides[$this->machine_name];
         if (is_scalar($override)) {
-          $autocomplete_path = url($override, array('absolute' => TRUE, 'query' => array('machine_name' => $this->machine_name)));
+          $autocomplete_path = url($override, array(
+            'absolute' => TRUE,
+            'query' => array('machine_name' => $this->machine_name),
+          ));
         }
         elseif (!empty($override['#callback']) && is_callable($override['#callback'])) {
           $autocomplete_path = call_user_func($override['#callback'], $this, $element, $override);
@@ -228,7 +230,7 @@ class SearchApiAutocompleteSearch extends Entity {
 
       $element['#autocomplete_path'] = $autocomplete_path;
       $element += array('#attributes' => array());
-      $element['#attributes'] += array('class'=> array());
+      $element['#attributes'] += array('class' => array());
       if ($options['autosubmit']) {
         $element['#attributes']['class'][] = 'auto_submit';
       }
@@ -263,11 +265,11 @@ class SearchApiAutocompleteSearch extends Entity {
   }
 
   /**
-   * Create the query that would be issued for this search for the complete keys.
+   * Create a query that would be issued for this search for the complete keys.
    *
-   * @param $complete
+   * @param string $complete
    *   A string containing the complete search keys.
-   * @param $incomplete
+   * @param string $incomplete
    *   A string containing the incomplete last search key.
    *
    * @return SearchApiQueryInterface

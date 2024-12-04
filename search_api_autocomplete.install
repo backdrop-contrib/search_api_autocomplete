@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Install, update and uninstall functions for the Search API autocomplete module.
+ * Install, update and uninstall functions for Search API autocomplete module.
  */
 
 /**

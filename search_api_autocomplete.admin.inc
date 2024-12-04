@@ -30,8 +30,7 @@ function search_api_autocomplete_admin_overview(array $form, array &$form_state,
       $form['description'] = array(
         '#type' => 'item',
         '#title' => t('Delete autocompletion settings'),
-        '#description' => t("If you won't use autocompletion with this index anymore, you can delete all autocompletion settings associated with it. " .
-            "This will delete all autocompletion settings on this index. Settings on other indexes won't be influenced."),
+        '#description' => t("If you won't use autocompletion with this index anymore, you can delete all autocompletion settings associated with it. This will delete all autocompletion settings on this index. Settings on other indexes won't be influenced."),
       );
       $form['button'] = array(
         '#type' => 'submit',
@@ -325,8 +324,7 @@ function search_api_autocomplete_admin_search_edit(array $form, array &$form_sta
   $form['options']['results'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display result count estimates'),
-    '#description' => t('Display the estimated number of result for each suggestion. ' .
-      'This option might not have an effect for some servers or types of suggestion.'),
+    '#description' => t('Display the estimated number of result for each suggestion. This option might not have an effect for some servers or types of suggestion.'),
     '#default_value' => !empty($search->options['results']),
   );
 
