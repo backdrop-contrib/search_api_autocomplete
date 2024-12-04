@@ -318,10 +318,11 @@ class SearchApiAutocompleteSearch extends Entity {
   }
 
   /**
-   * @todo do I have to implement that and why? And what is this, anyway?
+   * Checks if this entity has a certain exportable status.
+   * @see entity_plus_has_status()
    */
   public function hasStatus($status) {
-    return ($status == $this->status);// Only to return something at all...
+    return ($status == $this->status);
   }
 
 }
