@@ -315,11 +315,12 @@ function search_api_autocomplete_admin_search_edit(array $form, array &$form_sta
   }
 
   $form['options']['min_length'] = array(
-    '#type' => 'textfield',
+    '#type' => 'number',
     '#title' => t('Minimum length of keywords for autocompletion'),
     '#description' => t('If the entered keywords are shorter than this, no autocomplete suggestions will be displayed.'),
     '#default_value' => isset($search->options['min_length']) ? $search->options['min_length'] : 1,
-    '#validate' => array('element_validate_integer_positive'),
+    '#min' => 1,
+    '#max' => 10,
   );
   $form['options']['results'] = array(
     '#type' => 'checkbox',
